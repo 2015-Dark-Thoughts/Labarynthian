@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -86,6 +87,19 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
         } else if (e.getKeyCode() == KeyEvent.VK_UP) {
             if (character != null) {
                 character.move(Direction.UP);
+            }
+        }
+            else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+            if (character != null){
+                character.move(Direction.DOWN);
+            }
+        } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+            if (character != null){
+                character.move(Direction.LEFT);
+            }
+        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            if (character != null){
+                character.move(Direction.RIGHT);
             }
         }
 
@@ -258,7 +272,7 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
         }
 
         if (point.x > grid.getColumns() - 1) {
-            point.x = grid.getColumns();
+            point.x = grid.getColumns() - 1;
         }
 
         if (point.y < 0) {
@@ -266,7 +280,7 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
         }
 
         if (point.y > grid.getRows() - 1) {
-            point.y = grid.getRows();
+            point.y = grid.getRows() - 1;
         }
         return point;
     }
