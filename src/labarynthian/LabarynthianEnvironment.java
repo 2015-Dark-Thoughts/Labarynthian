@@ -27,6 +27,8 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
     private Image title;
     private GameState gameState = GameState.STARTMENU;
     private Number98 character;
+    
+    private boolean showGrid = false;
 
     public LabarynthianEnvironment() {
 
@@ -59,6 +61,8 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
     public void keyReleasedHandler(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             gameState = GameState.STARTROOM;
+        } else if (e.getKeyCode() == KeyEvent.VK_G) {
+            showGrid = !showGrid;
         } else if (e.getKeyCode() == KeyEvent.VK_V) {
             gameState = GameState.MAZESTART;
         } else if (e.getKeyCode() == KeyEvent.VK_UP) {
@@ -111,7 +115,9 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
                     graphics.fillRect(grid.getPosition().x + (3 * grid.getCellWidth()) , grid.getPosition().y - border, grid.getGridSize().width - (6 * grid.getCellWidth()), 2 * border);
 //                    graphics.fillRect(599, 422, 90, 90);
                     
-                    grid.paintComponent(graphics);
+                    if (showGrid){
+                        grid.paintComponent(graphics);
+                    }
 
                     if (character != null){
                         character.draw(graphics);
