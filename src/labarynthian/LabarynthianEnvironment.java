@@ -4,14 +4,12 @@
  * and open the template in the editor.
  */
 package labarynthian;
+
 import environment.Environment;
-import java.awt.Graphics;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import audio.AudioPlayer;
-import environment.GraphicsPalette;
 import environment.LocationValidatorIntf;
 import grid.Grid;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import images.ResourceTools;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -19,12 +17,18 @@ import java.awt.Image;
 import java.awt.Point;
 import java.util.ArrayList;
 
-
 /**
  *
  * @author ilovesoccer127
  */
-public class LabarynthianEnvironment extends Environment {
+class LabarynthianEnvironment extends Environment implements LocationValidatorIntf, GridDrawData {
+
+    Grid grid;
+    private Image title;
+    private GameState gameState = GameState.STARTMENU;
+    private Number98 character;
+
+    private boolean showGrid = false;
 
     public LabarynthianEnvironment() {
 
@@ -32,7 +36,15 @@ public class LabarynthianEnvironment extends Environment {
 
     @Override
     public void initializeEnvironment() {
+        this.setBackground(Color.BLACK);
 
+        setTitle(ResourceTools.loadImageFromResource("resources/title.jpeg"));
+
+        grid = new Grid(100, 80, 10, 10, new Point(0, 0), new Color(0, 0, 0));
+
+        setGameState(GameState.STARTMENU);
+
+        character = new Number98(new Point(5, 5), this, this);
     }
 
     @Override
@@ -47,6 +59,35 @@ public class LabarynthianEnvironment extends Environment {
 
     @Override
     public void keyReleasedHandler(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_1) {
+            gameState = GameState.STARTROOM;
+        } else if (e.getKeyCode() == KeyEvent.VK_2) {
+            gameState = GameState.MAZESTART;
+        } else if (e.getKeyCode() == KeyEvent.VK_3) {
+            gameState = GameState.OASIS;
+        } else if (e.getKeyCode() == KeyEvent.VK_4) {
+            gameState = GameState.MAZEEXPLORE;
+        } else if (e.getKeyCode() == KeyEvent.VK_5) {
+            gameState = GameState.TREEROOM;
+        } else if (e.getKeyCode() == KeyEvent.VK_6) {
+            gameState = GameState.BOSSROOM;
+        } else if (e.getKeyCode() == KeyEvent.VK_7) {
+            gameState = GameState.BATTLE;
+        } else if (e.getKeyCode() == KeyEvent.VK_8) {
+            gameState = GameState.END;
+        } else if (e.getKeyCode() == KeyEvent.VK_9) {
+            gameState = GameState.DEAD;
+        } else if (e.getKeyCode() == KeyEvent.VK_P) {
+            gameState = GameState.PAUSED;
+        } else if (e.getKeyCode() == KeyEvent.VK_G) {
+            showGrid = !showGrid;
+        } else if (e.getKeyCode() == KeyEvent.VK_V) {
+            gameState = GameState.MAZESTART;
+        } else if (e.getKeyCode() == KeyEvent.VK_UP) {
+            if (character != null) {
+                character.move(Direction.UP);
+            }
+        }
 
     }
 
@@ -57,7 +98,177 @@ public class LabarynthianEnvironment extends Environment {
 
     @Override
     public void paintEnvironment(Graphics graphics) {
+        if (gameState != null) {
+
+            switch (gameState) {
+                //<editor-fold defaultstate="collapsed" desc="STARTMENU">
+                case STARTMENU:
+                    grid.setColumns(getWidth());
+                    grid.setRows(getHeight());
+                    grid.setColor(Color.BLACK);
+                    grid.paintComponent(graphics);
+                    
+                    graphics.drawImage(getTitle(), 400, 100, null);
+                    
+                    graphics.setColor(Color.WHITE);
+                    graphics.drawString("PRESS SPACE TO BEGIN", (getWidth() / 2) - 50, getHeight() / 2);
+                    
+                    break;
+//</editor-fold>
+
+                //<editor-fold defaultstate="collapsed" desc="STARTROOM">
+                case STARTROOM:
+                    grid.setColumns(10);
+                    grid.setRows(10);
+                    grid.setColor(Color.LIGHT_GRAY);
+                    grid.paintComponent(graphics);
+                    grid.setPosition(new Point((getWidth() / 2) - 100, (getHeight() / 2) - 10));
+                    
+//                    graphics.fillRect(593, 417, 100, 100);
+                    int border = 5;
+                    graphics.fillRect(grid.getPosition().x - border, grid.getPosition().y - border, 100 + (2 * border), 100 + (2 * border));
+                    
+                    graphics.setColor(Color.BLACK);
+//                    graphics.fillRect(628, 417, 30, 10);
+                    graphics.fillRect(grid.getPosition().x, grid.getPosition().y, 100, 100);
+//                    graphics.fillRect(599, 422, 90, 90);
+                    graphics.fillRect(grid.getPosition().x + (3 * grid.getCellWidth()), grid.getPosition().y - border, 100 - (6 * grid.getCellWidth()), 2 * border);
+//                    graphics.fillRect(599, 422, 90, 90);
+                    
+                    if (showGrid) {
+                        grid.paintComponent(graphics);
+                    }
+                    
+                    if (character != null) {
+                        character.draw(graphics);
+                    }
+                    
+                    break;
+//</editor-fold>
+
+                //<editor-fold defaultstate="collapsed" desc="MAZESTART">
+                case MAZESTART:
+                    
+                    break;
+//</editor-fold>
+
+                //<editor-fold defaultstate="collapsed" desc="MAZEEXPLORE">
+                case MAZEEXPLORE:
+                    
+                    break;
+//</editor-fold>
+
+                //<editor-fold defaultstate="collapsed" desc="OASIS">
+                case OASIS:
+                    
+                    break;
+//</editor-fold>
+
+                //<editor-fold defaultstate="collapsed" desc="TREEROOM">
+                case TREEROOM:
+                    
+                    break;
+//</editor-fold>
+
+                //<editor-fold defaultstate="collapsed" desc="BOSSROOM">
+                case BOSSROOM:
+                    
+                    break;
+//</editor-fold>
+
+                //<editor-fold defaultstate="collapsed" desc="PAUSED">
+                case PAUSED:
+                    
+                    break;
+//</editor-fold>
+
+                //<editor-fold defaultstate="collapsed" desc="BATTLE">
+                case BATTLE:
+                    
+                    break;
+//</editor-fold>
+
+                //<editor-fold defaultstate="collapsed" desc="DEAD">
+                case DEAD:
+                    
+                    break;
+//</editor-fold>
+
+                //<editor-fold defaultstate="collapsed" desc="END">
+                case END:
+                    
+                    break;
+//</editor-fold>
+
+            }
+
+        }
 
     }
-    
+
+    /**
+     * @return the title
+     */
+    public Image getTitle() {
+        return title;
+    }
+
+    /**
+     * @param title the title to set
+     */
+    public void setTitle(Image title) {
+        this.title = title;
+    }
+
+    /**
+     * @return the gameState
+     */
+    public GameState getGameState() {
+        return gameState;
+    }
+
+    /**
+     * @param gameState the gameState to set
+     */
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
+    }
+
+    @Override
+    public int getCellHeight() {
+        return grid.getCellHeight();
+    }
+
+    @Override
+    public int getCellWidth() {
+        return grid.getCellWidth();
+    }
+
+    @Override
+    public Point getCellSystemCorrdinate(Point cellCorrdinate) {
+//        return grid.getCellLocationFromSystemCoordinate(cellCorrdinate);
+        return grid.getCellSystemCoordinate(cellCorrdinate);
+    }
+
+//<editor-fold defaultstate="collapsed" desc="LocationValidatorIntf">
+    @Override
+    public Point validateLocation(Point point) {
+        if (point.x < 0) {
+            point.x = 0;
+        }
+
+        if (point.x > grid.getColumns() - 1) {
+            point.x = grid.getColumns();
+        }
+
+        if (point.y < 0) {
+            point.y = 0;
+        }
+
+        if (point.y > grid.getRows() - 1) {
+            point.y = grid.getRows();
+        }
+        return point;
+    }
+//</editor-fold>
 }
