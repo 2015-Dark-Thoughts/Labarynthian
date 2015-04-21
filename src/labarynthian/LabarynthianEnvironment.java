@@ -27,7 +27,7 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
     private Image title;
     private GameState gameState = GameState.STARTMENU;
     private Number98 character;
-    
+
     private boolean showGrid = false;
 
     public LabarynthianEnvironment() {
@@ -59,14 +59,32 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
 
     @Override
     public void keyReleasedHandler(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+        if (e.getKeyCode() == KeyEvent.VK_1) {
             gameState = GameState.STARTROOM;
+        } else if (e.getKeyCode() == KeyEvent.VK_2) {
+            gameState = GameState.MAZESTART;
+        } else if (e.getKeyCode() == KeyEvent.VK_3) {
+            gameState = GameState.OASIS;
+        } else if (e.getKeyCode() == KeyEvent.VK_4) {
+            gameState = GameState.MAZEEXPLORE;
+        } else if (e.getKeyCode() == KeyEvent.VK_5) {
+            gameState = GameState.TREEROOM;
+        } else if (e.getKeyCode() == KeyEvent.VK_6) {
+            gameState = GameState.BOSSROOM;
+        } else if (e.getKeyCode() == KeyEvent.VK_7) {
+            gameState = GameState.BATTLE;
+        } else if (e.getKeyCode() == KeyEvent.VK_8) {
+            gameState = GameState.END;
+        } else if (e.getKeyCode() == KeyEvent.VK_9) {
+            gameState = GameState.DEAD;
+        } else if (e.getKeyCode() == KeyEvent.VK_P) {
+            gameState = GameState.PAUSED;
         } else if (e.getKeyCode() == KeyEvent.VK_G) {
             showGrid = !showGrid;
         } else if (e.getKeyCode() == KeyEvent.VK_V) {
             gameState = GameState.MAZESTART;
         } else if (e.getKeyCode() == KeyEvent.VK_UP) {
-            if (character != null){
+            if (character != null) {
                 character.move(Direction.UP);
             }
         }
@@ -83,19 +101,22 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
         if (gameState != null) {
 
             switch (gameState) {
+                //<editor-fold defaultstate="collapsed" desc="STARTMENU">
                 case STARTMENU:
                     grid.setColumns(getWidth());
                     grid.setRows(getHeight());
                     grid.setColor(Color.BLACK);
                     grid.paintComponent(graphics);
-
+                    
                     graphics.drawImage(getTitle(), 400, 100, null);
-
+                    
                     graphics.setColor(Color.WHITE);
                     graphics.drawString("PRESS SPACE TO BEGIN", (getWidth() / 2) - 50, getHeight() / 2);
-
+                    
                     break;
+//</editor-fold>
 
+                //<editor-fold defaultstate="collapsed" desc="STARTROOM">
                 case STARTROOM:
                     grid.setColumns(10);
                     grid.setRows(10);
@@ -103,63 +124,81 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
                     grid.paintComponent(graphics);
                     grid.setPosition(new Point((getWidth() / 2) - 100, (getHeight() / 2) - 10));
                     
-
 //                    graphics.fillRect(593, 417, 100, 100);
                     int border = 5;
-                    graphics.fillRect(grid.getPosition().x - border, grid.getPosition().y - border, grid.getGridSize().width + (2 * border), grid.getGridSize().height  + (2 * border));
-
+                    graphics.fillRect(grid.getPosition().x - border, grid.getPosition().y - border, 100 + (2 * border), 100 + (2 * border));
+                    
                     graphics.setColor(Color.BLACK);
 //                    graphics.fillRect(628, 417, 30, 10);
-                    graphics.fillRect(grid.getPosition().x, grid.getPosition().y, grid.getGridSize().width, grid.getGridSize().height);
+                    graphics.fillRect(grid.getPosition().x, grid.getPosition().y, 100, 100);
 //                    graphics.fillRect(599, 422, 90, 90);
-                    graphics.fillRect(grid.getPosition().x + (3 * grid.getCellWidth()) , grid.getPosition().y - border, grid.getGridSize().width - (6 * grid.getCellWidth()), 2 * border);
+                    graphics.fillRect(grid.getPosition().x + (3 * grid.getCellWidth()), grid.getPosition().y - border, 100 - (6 * grid.getCellWidth()), 2 * border);
 //                    graphics.fillRect(599, 422, 90, 90);
                     
-                    if (showGrid){
+                    if (showGrid) {
                         grid.paintComponent(graphics);
                     }
-
-                    if (character != null){
+                    
+                    if (character != null) {
                         character.draw(graphics);
                     }
-
+                    
                     break;
+//</editor-fold>
 
+                //<editor-fold defaultstate="collapsed" desc="MAZESTART">
                 case MAZESTART:
-
+                    
                     break;
+//</editor-fold>
 
+                //<editor-fold defaultstate="collapsed" desc="MAZEEXPLORE">
                 case MAZEEXPLORE:
-
+                    
                     break;
+//</editor-fold>
 
+                //<editor-fold defaultstate="collapsed" desc="OASIS">
                 case OASIS:
-
+                    
                     break;
+//</editor-fold>
 
+                //<editor-fold defaultstate="collapsed" desc="TREEROOM">
                 case TREEROOM:
-
+                    
                     break;
+//</editor-fold>
 
+                //<editor-fold defaultstate="collapsed" desc="BOSSROOM">
                 case BOSSROOM:
-
+                    
                     break;
+//</editor-fold>
 
+                //<editor-fold defaultstate="collapsed" desc="PAUSED">
                 case PAUSED:
-
+                    
                     break;
+//</editor-fold>
 
+                //<editor-fold defaultstate="collapsed" desc="BATTLE">
                 case BATTLE:
-
+                    
                     break;
+//</editor-fold>
 
+                //<editor-fold defaultstate="collapsed" desc="DEAD">
                 case DEAD:
-
+                    
                     break;
+//</editor-fold>
 
+                //<editor-fold defaultstate="collapsed" desc="END">
                 case END:
-
+                    
                     break;
+//</editor-fold>
 
             }
 
@@ -214,6 +253,21 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
 //<editor-fold defaultstate="collapsed" desc="LocationValidatorIntf">
     @Override
     public Point validateLocation(Point point) {
+        if (point.x < 0) {
+            point.x = 0;
+        }
+
+        if (point.x > grid.getColumns() - 1) {
+            point.x = grid.getColumns();
+        }
+
+        if (point.y < 0) {
+            point.y = 0;
+        }
+
+        if (point.y > grid.getRows() - 1) {
+            point.y = grid.getRows();
+        }
         return point;
     }
 //</editor-fold>
