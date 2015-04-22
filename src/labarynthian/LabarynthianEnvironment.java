@@ -5,6 +5,7 @@
  */
 package labarynthian;
 
+import audio.AudioPlayer;
 import environment.Environment;
 import environment.LocationValidatorIntf;
 import grid.Grid;
@@ -101,11 +102,13 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
                     grid.setColor(Color.BLACK);
                     grid.paintComponent(graphics);
 
+                    audio.AudioPlayer.play("/resources/MenuMusic.wav");
+
                     graphics.drawImage(getTitle(), 400, 100, null);
 
                     graphics.setColor(Color.WHITE);
                     graphics.drawString("PRESS SPACE TO BEGIN", (getWidth() / 2) - 50, getHeight() / 2);
-
+                    
                     break;
 
                 case STARTROOM:
