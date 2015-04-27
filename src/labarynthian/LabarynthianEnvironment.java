@@ -44,13 +44,16 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
         grid = new Grid(100, 80, 10, 10, new Point(0, 0), new Color(0, 0, 0));
 
         setGameState(GameState.STARTMENU);
+        
+        audio.AudioPlayer.play("/resources/MenuMusic.wav");
+                    
 
         character = new Number98(new Point(5, 5), this, this);
     }
 
     @Override
     public void timerTaskHandler() {
-
+        
     }
 
     @Override
@@ -100,10 +103,8 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
                     grid.setColumns(getWidth());
                     grid.setRows(getHeight());
                     grid.setColor(Color.BLACK);
-                    grid.paintComponent(graphics);
-
-                    audio.AudioPlayer.play("/resources/MenuMusic.wav");
-
+                    grid.paintComponent(graphics);                    
+                    
                     graphics.drawImage(getTitle(), 400, 100, null);
 
                     graphics.setColor(Color.WHITE);
@@ -117,6 +118,7 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
                     grid.setColor(Color.LIGHT_GRAY);
                     grid.paintComponent(graphics);
                     grid.setPosition(new Point((getWidth() / 2) - 100, (getHeight() / 2) - 10));
+                                      
                     
 
 //                    graphics.fillRect(593, 417, 100, 100);
@@ -149,7 +151,7 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
                     break;
 
                 case OASIS:
-
+ 
                     break;
 
                 case TREEROOM:
