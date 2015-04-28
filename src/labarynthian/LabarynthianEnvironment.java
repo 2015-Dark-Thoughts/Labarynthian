@@ -5,7 +5,6 @@
  */
 package labarynthian;
 
-import audio.AudioPlayer;
 import environment.Environment;
 import environment.LocationValidatorIntf;
 import grid.Grid;
@@ -16,7 +15,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
-import java.util.ArrayList;
 
 /**
  *
@@ -46,8 +44,7 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
         setGameState(GameState.STARTMENU);
         
         audio.AudioPlayer.play("/resources/MenuMusic.wav");
-                    
-
+        
         character = new Number98(new Point(5, 5), this, this);
     }
 
@@ -58,11 +55,6 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
 
     @Override
     public void keyPressedHandler(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyReleasedHandler(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             gameState = GameState.STARTROOM;
         } else if (e.getKeyCode() == KeyEvent.VK_G) {
@@ -71,8 +63,7 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
             gameState = GameState.MAZESTART;
         } else if (e.getKeyCode() == KeyEvent.VK_UP) {
             if (character != null){
-                character.move(Direction.UP);
-            }
+                character.move(Direction.UP);            }
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             if (character != null){
                 character.move(Direction.DOWN);
@@ -86,6 +77,11 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
                 character.move(Direction.RIGHT);
             }
         }
+    }
+
+    
+    @Override
+    public void keyReleasedHandler(KeyEvent e) {
 
     }
 
