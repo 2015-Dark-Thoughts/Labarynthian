@@ -17,18 +17,20 @@ import java.awt.Point;
 public class Number98 {
 
     private Point position;
+    private int glowInt;
     private GridDrawData drawData;
     private LocationValidatorIntf locationValidator;
     private boolean paused = false;
     private boolean alive = true;
-
+    private boolean candle = false;
     
-    public Number98(Point position, LocationValidatorIntf locationValidator, GridDrawData drawData){
+
+    public Number98(Point position, LocationValidatorIntf locationValidator, GridDrawData drawData) {
         this.position = position;
         this.locationValidator = locationValidator;
         this.drawData = drawData;
     }
-    
+
     //<editor-fold defaultstate="collapsed" desc="Getters and Setters">
     /**
      * @return the drawData
@@ -85,15 +87,32 @@ public class Number98 {
     public void setAlive(boolean alive) {
         this.alive = alive;
     }
+
+    /**
+     * @return the spreadRate
+     */
 //</editor-fold>
+    
+
+    
+//    public Point getCoM(){
+//        return new Point(position)
+//    }
 
     public void draw(Graphics graphics) {
         Point topLeft = drawData.getCellSystemCorrdinate(position);
-        graphics.setColor(Color.WHITE);
+        Point com = new Point(topLeft.x + (drawData.getCellWidth() / 2), topLeft.y + (drawData.getCellHeight() / 2));
+        if (candle = true) {
+            graphics.setColor(new Color(255, 255, 204, 150));
+            graphics.fillOval(com.x - getRadiusSize(), com.y - getRadiusSize(), 
+                    2 * getRadiusSize(), 2 * getRadiusSize());
+//            graphics.fillOval(topLeft.x - (drawData.getCellWidth()), topLeft.y - (drawData.getCellHeight() / 2), 
+//                    ((drawData.getCellWidth()) + getRadiusSize()) - 10, ((drawData.getCellHeight()) + getRadiusSize()) - 10);
+        }
+        graphics.setColor(Color.GRAY);
         graphics.fillOval(topLeft.x, topLeft.y, drawData.getCellWidth(), drawData.getCellHeight());
-    }
 
-    private final int BODY_POSITION = 0;
+    }
 
     void move(Direction direction) {
         if (!paused) {
@@ -113,5 +132,23 @@ public class Number98 {
             }
         }
 
+    }
+
+    /**
+     * @return the glowInt
+     */
+    public int getGlowInt() {
+        return glowInt;
+    }
+
+    /**
+     * @param glowInt the glowInt to set
+     */
+    public void setGlowInt(int glowInt) {
+        this.glowInt = glowInt;
+    }
+    
+    private int getRadiusSize(){
+        return Math.abs(70 - glowInt) + 20;
     }
 }
