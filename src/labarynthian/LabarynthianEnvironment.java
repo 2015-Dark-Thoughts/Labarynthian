@@ -27,6 +27,11 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
     private GameState gameState = GameState.STARTMENU;
     private Number98 character;
     
+    public int MEDIUM_SPEED = 7;
+    
+    public int moveDelayLimit = MEDIUM_SPEED;
+    public int moveDelayCounter = 7;
+
     private boolean showGrid = false;
 
     public LabarynthianEnvironment() {
@@ -42,15 +47,17 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
         grid = new Grid(100, 80, 10, 10, new Point(0, 0), new Color(0, 0, 0));
 
         setGameState(GameState.STARTMENU);
-        
+
         audio.AudioPlayer.play("/resources/MenuMusic.wav");
-        
+
         character = new Number98(new Point(5, 5), this, this);
     }
 
     @Override
     public void timerTaskHandler() {
-        
+        if (character != null){
+            character.move();
+        }
     }
 
     @Override
@@ -62,27 +69,47 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
         } else if (e.getKeyCode() == KeyEvent.VK_V) {
             gameState = GameState.MAZESTART;
         } else if (e.getKeyCode() == KeyEvent.VK_UP) {
-            if (character != null){
-                character.move(Direction.UP);            }
+            if (character != null) {
+                character.move(Direction.UP);
+                character.start();
+            }
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            if (character != null){
+            if (character != null) {
                 character.move(Direction.DOWN);
+                character.start();
             }
         } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            if (character != null){
+            if (character != null) {
                 character.move(Direction.LEFT);
+                character.start();
             }
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            if (character != null){
+            if (character != null) {
                 character.move(Direction.RIGHT);
+                character.start();
             }
         }
     }
 
-    
     @Override
     public void keyReleasedHandler(KeyEvent e) {
-
+        if (e.getKeyCode() == KeyEvent.VK_UP) {
+            if (character != null) {
+                character.stop();
+            }
+        } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+            if (character != null) {
+                character.stop();
+            }
+        } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+            if (character != null) {
+                character.stop();
+            }
+        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            if (character != null) {
+                character.stop();
+            }
+        }
     }
 
     @Override
@@ -99,13 +126,13 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
                     grid.setColumns(getWidth());
                     grid.setRows(getHeight());
                     grid.setColor(Color.BLACK);
-                    grid.paintComponent(graphics);                    
-                    
+                    grid.paintComponent(graphics);
+
                     graphics.drawImage(getTitle(), 400, 100, null);
 
                     graphics.setColor(Color.WHITE);
                     graphics.drawString("PRESS SPACE TO BEGIN", (getWidth() / 2) - 50, getHeight() / 2);
-                    
+
                     break;
 
                 case STARTROOM:
@@ -114,25 +141,23 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
                     grid.setColor(Color.LIGHT_GRAY);
                     grid.paintComponent(graphics);
                     grid.setPosition(new Point((getWidth() / 2) - 100, (getHeight() / 2) - 10));
-                                      
-                    
 
 //                    graphics.fillRect(593, 417, 100, 100);
                     int border = 5;
-                    graphics.fillRect(grid.getPosition().x - border, grid.getPosition().y - border, 100 + (2 * border), 100  + (2 * border));
+                    graphics.fillRect(grid.getPosition().x - border, grid.getPosition().y - border, 100 + (2 * border), 100 + (2 * border));
 
                     graphics.setColor(Color.BLACK);
 //                    graphics.fillRect(628, 417, 30, 10);
                     graphics.fillRect(grid.getPosition().x, 100, 100, 100);
 //                    graphics.fillRect(599, 422, 90, 90);
-                    graphics.fillRect(grid.getPosition().x + (3 * grid.getCellWidth()) , grid.getPosition().y - border, 100 - (6 * grid.getCellWidth()), 2 * border);
+                    graphics.fillRect(grid.getPosition().x + (3 * grid.getCellWidth()), grid.getPosition().y - border, 100 - (6 * grid.getCellWidth()), 2 * border);
 //                    graphics.fillRect(599, 422, 90, 90);
-                    
-                    if (showGrid){
+
+                    if (showGrid) {
                         grid.paintComponent(graphics);
                     }
 
-                    if (character != null){
+                    if (character != null) {
                         character.draw(graphics);
                     }
 
@@ -147,7 +172,7 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
                     break;
 
                 case OASIS:
- 
+
                     break;
 
                 case TREEROOM:
