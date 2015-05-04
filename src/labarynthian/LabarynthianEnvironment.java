@@ -16,7 +16,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
-import java.util.ArrayList;
 
 /**
  *
@@ -30,6 +29,11 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
     private Number98 character;
     
     private int counter = 0;
+
+    public int MEDIUM_SPEED = 7;
+    
+    public int moveDelayLimit = MEDIUM_SPEED;
+    public int moveDelayCounter = 7;
 
     private boolean showGrid = false;
 
@@ -47,6 +51,8 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
 
         setGameState(GameState.STARTMENU);
 
+        audio.AudioPlayer.play("/resources/MenuMusic.wav");
+
         character = new Number98(new Point(5, 5), this, this);
     }
 
@@ -58,6 +64,10 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
             counter = 80;
         }
         character.setGlowInt((int) counter / 2);
+
+        if (character != null){
+            character.move();
+        }
     }
 
     @Override
@@ -89,6 +99,22 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
         } else if (e.getKeyCode() == KeyEvent.VK_UP) {
             if (character != null) {
                 character.move(Direction.UP);
+                character.start();
+            }
+        } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+            if (character != null) {
+                character.move(Direction.DOWN);
+                character.start();
+            }
+        } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+            if (character != null) {
+                character.move(Direction.LEFT);
+                character.start();
+            }
+        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            if (character != null) {
+                character.move(Direction.RIGHT);
+                character.start();
             }
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             if (character != null) {
@@ -103,13 +129,35 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
                 character.move(Direction.RIGHT);
             }
         }
-
-
     }
 
     @Override
     public void keyReleasedHandler(KeyEvent e) {
-        
+        if ((e.getKeyCode() == KeyEvent.VK_UP) || 
+            (e.getKeyCode() == KeyEvent.VK_DOWN) ||
+            (e.getKeyCode() == KeyEvent.VK_LEFT) ||
+            (e.getKeyCode() == KeyEvent.VK_RIGHT) ){
+            if (character != null) {
+                character.stop();
+            }
+        }
+//        if (e.getKeyCode() == KeyEvent.VK_UP) {
+//            if (character != null) {
+//                character.stop();
+//            }
+//        } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+//            if (character != null) {
+//                character.stop();
+//            }
+//        } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+//            if (character != null) {
+//                character.stop();
+//            }
+//        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+//            if (character != null) {
+//                character.stop();
+//            }
+//        }
     }
 
     @Override
@@ -152,6 +200,9 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
                     graphics.setColor(Color.BLACK);
 //                    graphics.fillRect(628, 417, 30, 10);
                     graphics.fillRect(grid.getPosition().x, grid.getPosition().y, 100, 100);
+//=======
+//                    graphics.fillRect(grid.getPosition().x, 100, 100, 100);
+//>>>>>>> Ethan-game-music
 //                    graphics.fillRect(599, 422, 90, 90);
                     graphics.fillRect(grid.getPosition().x + (3 * grid.getCellWidth()), grid.getPosition().y - border, 100 - (6 * grid.getCellWidth()), 2 * border);
 //                    graphics.fillRect(599, 422, 90, 90);

@@ -22,13 +22,18 @@ public class Number98 {
     private LocationValidatorIntf locationValidator;
     private boolean paused = false;
     private boolean alive = true;
+
     private boolean candle = false;
-    
+
+    private Direction direction;
+    private boolean moving;
 
     public Number98(Point position, LocationValidatorIntf locationValidator, GridDrawData drawData) {
         this.position = position;
         this.locationValidator = locationValidator;
         this.drawData = drawData;
+        this.direction = direction;
+        this.moving = false;
     }
 
     //<editor-fold defaultstate="collapsed" desc="Getters and Setters">
@@ -114,8 +119,18 @@ public class Number98 {
 
     }
 
+    public void stop() {
+        this.moving = false;
+    }
+    
+    public void start() {
+        this.moving = true;
+    }
+    
+    
+    
     void move(Direction direction) {
-        if (!paused) {
+        if ((!paused) && (moving)) {
             Point newPosition = (Point) position.clone();
 
             if (direction == Direction.DOWN) {
@@ -150,5 +165,9 @@ public class Number98 {
     
     private int getRadiusSize(){
         return Math.abs(70 - glowInt) + 20;
+    }
+
+    public void move() {
+        move(direction);
     }
 }
