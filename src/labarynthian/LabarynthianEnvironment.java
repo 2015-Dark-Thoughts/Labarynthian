@@ -366,7 +366,6 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
 //<editor-fold defaultstate="collapsed" desc="LocationValidatorIntf">
     @Override
     public Point validateLocation(Point point) {
-//        System.out.println("Validate");
         if (point.x < 0) {
             point.x = 0;
         }
@@ -382,12 +381,16 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
         if (point.y > grid.getRows() - 1) {
             point.y = grid.getRows() - 1;
         }
+        newLocation = point;
         
-        if (map != null){
+        if (map != null) {
             map.validateLocation(point);
         }
-        return point;
+        
+        return newLocation;
     }
+    
+    private Point newLocation;
 //</editor-fold>
 
     /**
@@ -410,7 +413,8 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
     public boolean portalEvent(Portal portal) {
         System.out.println("Portal Event");
         setMap(MapFactory.getMap(portal.getDestinationMapName(), new Point(100, 300)));
-        c98.setPosition(portal.getDestinationLocation());
+        newLocation = portal.getDestinationLocation();
+        //c98.setPosition(portal.getDestinationLocation());
         return true;
     }
 //</editor-fold>
