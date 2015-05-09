@@ -59,15 +59,12 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
 
         setGameState(GameState.STARTMENU);
 
-        audio.AudioPlayer.play("/resources/MenuMusic.wav");
+//        audio.AudioPlayer.play("/resources/MenuMusic.wav");
 
         character = new Number98(new Point(5, 5), this, this);
         
-        c98 = new Number98(new Point(5, 5), this, this);
-        
+        c98 = new Number98(new Point(4, 0), this, this);
         setMap(MapFactory.getMap(MapFactory.MAP_START_ROOM, new Point(100, 300)));
-//        getMap().setPosition(new Point(100, 300));
-        
     }
 
     @Override
@@ -125,38 +122,39 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
             }
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             if (character != null) {
-                character.move(Direction.DOWN);
-                character.start();
+//                character.move(Direction.DOWN);
+//                character.start();
                 
                 move(Direction.DOWN);
             }
         } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             if (character != null) {
-                character.move(Direction.LEFT);
-                character.start();
+//                character.move(Direction.LEFT);
+//                character.start();
                 
                 move(Direction.LEFT);
             }
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             if (character != null) {
-                character.move(Direction.RIGHT);
-                character.start();
+//                character.move(Direction.RIGHT);
+//                character.start();
                 
                 move(Direction.RIGHT);
             }
-        } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            if (character != null) {
-                character.move(Direction.DOWN);
-            }
-        } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            if (character != null) {
-                character.move(Direction.LEFT);
-            }
-        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            if (character != null) {
-                character.move(Direction.RIGHT);
-            }
-        }
+        } 
+//        else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+//            if (character != null) {
+//                character.move(Direction.DOWN);
+//            }
+//        } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+//            if (character != null) {
+//                character.move(Direction.LEFT);
+//            }
+//        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+//            if (character != null) {
+//                character.move(Direction.RIGHT);
+//            }
+//        }
     }
 
     @Override
@@ -222,7 +220,7 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
                     }
                     
                     if (c98 != null){
-//                        c98.draw(graphics);
+                        c98.draw(graphics);
                     }
                     
                     grid.setColumns(10);
@@ -249,9 +247,9 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
                         grid.paintComponent(graphics);
                     }
 
-                    if (character != null) {
-                        character.draw(graphics);
-                    }
+//                    if (character != null) {
+//                        character.draw(graphics);
+//                    }
                     if (grid.getPosition() == grid.getCellLocationFromSystemCoordinate(1, 5)) {
                         gameState = GameState.MAZESTART;
                     }
@@ -345,25 +343,30 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
         this.gameState = gameState;
     }
 
+//<editor-fold defaultstate="collapsed" desc="GridDrawData">
     @Override
     public int getCellHeight() {
-        return grid.getCellHeight();
+//        return grid.getCellHeight();
+        return map.getCellHeight();
     }
-
+    
     @Override
     public int getCellWidth() {
-        return grid.getCellWidth();
+//        return grid.getCellWidth();
+        return map.getCellWidth();
     }
-
+    
     @Override
     public Point getCellSystemCorrdinate(Point cellCorrdinate) {
-//        return grid.getCellLocationFromSystemCoordinate(cellCorrdinate);
-        return grid.getCellSystemCoordinate(cellCorrdinate);
+//        return grid.getCellSystemCoordinate(cellCorrdinate);
+        return map.getCellSystemCoordinate(cellCorrdinate);
     }
+//</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="LocationValidatorIntf">
     @Override
     public Point validateLocation(Point point) {
+//        System.out.println("Validate");
         if (point.x < 0) {
             point.x = 0;
         }
@@ -378,6 +381,10 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
 
         if (point.y > grid.getRows() - 1) {
             point.y = grid.getRows() - 1;
+        }
+        
+        if (map != null){
+            map.validateLocation(point);
         }
         return point;
     }
@@ -401,6 +408,7 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
 //<editor-fold defaultstate="collapsed" desc="PortalEventHandlerIntf">
     @Override
     public boolean portalEvent(Portal portal) {
+        System.out.println("Portal Event");
         setMap(MapFactory.getMap(portal.getDestinationMapName(), new Point(100, 300)));
         c98.setPosition(portal.getDestinationLocation());
         return true;
@@ -408,6 +416,7 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
 //</editor-fold>
 
     private void move(Direction direction) {
+//        System.out.println("Move " + direction.toString());
         if (c98 != null){
             c98.move(direction);
             c98.start();

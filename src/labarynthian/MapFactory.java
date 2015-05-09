@@ -34,7 +34,7 @@ public class MapFactory {
         switch (mapName){
             
             case MAP_MAZE_START:
-                map.setGridSize(50, 10);
+                map.setGridSize(10, 50);
                 map.addPortal(new Point(3, 9), MAP_START_ROOM, new Point(3, 1));
                 
                 break;
@@ -43,16 +43,13 @@ public class MapFactory {
             case MAP_START_ROOM:
                 map.setGridSize(10, 10);
                 map.addPortal(new Point(3, 0), MAP_MAZE_START, new Point(3, 8));
-//                map.set;
-//                map.setMapVisualizer(new LabarynthianMapVisualizer());
-                
-                
         }
         
         return map;
     }
     
     public static final Color WALL_COLOR =  new Color(200, 200, 200, 200);  //Color.LIGHT_GRAY;//new Color(0, 0, 0);
+    public static final Color PORTAL_COLOR =  new Color(200, 0, 50, 200);  
     
     private static class LabarynthianMapVisualizer implements MapVisualizerIntf {
         
@@ -75,16 +72,15 @@ public class MapFactory {
             graphics.fill3DRect(topLeft.x + roomInterior.width + map.getCellWidth(), topLeft.y, wallWidth, roomExterior.height, true); //right wall
             graphics.fill3DRect(topLeft.x, topLeft.y + roomInterior.height + map.getCellHeight(), roomExterior.width, wallHeight, true); // bottom wall
             
+            
+            // design and debugging stuff
             map.getGrid().paintComponent(graphics);
             
-//            graphics.fill3DRect(map.getPosition().x - map.getGrid().getCellWidth(), 
-//                                map.getPosition().y - map.getGrid().getCellHeight(), 
-//                                map.getGrid().getCellWidth(), 
-//                                map.getGrid().getCellHeight() * (map.getGrid().getRows() + 2), true);
-            
-            // overlay
-            
-            
+            graphics.setColor(PORTAL_COLOR);
+            map.getPortalLocations().stream().forEach((portalLocation) -> {
+                Point tl = map.getGrid().getCellSystemCoordinate(portalLocation);
+                graphics.fillOval(tl.x, tl.y, wallWidth, wallHeight);
+            });
         }
         
     }

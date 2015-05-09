@@ -98,8 +98,6 @@ public class Number98 {
      */
 //</editor-fold>
     
-
-    
 //    public Point getCoM(){
 //        return new Point(position)
 //    }
