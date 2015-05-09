@@ -16,6 +16,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
+import javax.swing.JFrame;
+import map.Map;
 
 /**
  *
@@ -23,6 +25,9 @@ import java.awt.Point;
  */
 class LabarynthianEnvironment extends Environment implements LocationValidatorIntf, GridDrawData {
 
+    Map map;
+    
+    
     Grid grid;
     private Image title;
     private GameState gameState = GameState.STARTMENU;
@@ -54,6 +59,10 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
         audio.AudioPlayer.play("/resources/MenuMusic.wav");
 
         character = new Number98(new Point(5, 5), this, this);
+        
+        map = MapFactory.getMap(MapFactory.MAP_START_ROOM);
+        map.setPosition(new Point(100, 300));
+        
     }
 
     @Override
@@ -187,6 +196,11 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
 
                 //<editor-fold defaultstate="collapsed" desc="STARTROOM">
                 case STARTROOM:
+                    
+                    if (map != null){
+                        map.drawMap(graphics);
+                    }
+                    
                     grid.setColumns(10);
                     grid.setRows(10);
                     grid.setColor(Color.LIGHT_GRAY);

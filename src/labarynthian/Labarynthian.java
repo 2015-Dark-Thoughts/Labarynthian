@@ -17,8 +17,6 @@ public class Labarynthian {
      */
     public static void main(String[] args) {
         ApplicationStarter.run("Labarynthian", new LabarynthianEnvironment());
-//        ApplicationStarter.run(null, "Labarynthian", null, new LabarynthianEnvironment);
-
-    }
+     }
     
 }
