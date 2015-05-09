@@ -25,23 +25,27 @@ public class MapFactory {
     public static final String MAP_OASIS = "Oasis";
     public static final String MAP_TREE_ROOM = "Tree Room";
     public static final String MAP_BOSS_ROOM = "Boss Room";
-//    public static final String MAP_ = "";
     
-    
-    public static Map getMap(String mapName){
-        Map map;
+    public static Map getMap(String mapName, Point position){
+        Map map = new Map(null, DEFAULT_CELL_SIZE, new Dimension(5, 5));
+        map.setMapVisualizer(new LabarynthianMapVisualizer());
+        map.setPosition(position);
 
         switch (mapName){
             
             case MAP_MAZE_START:
-                map = new Map(null, DEFAULT_CELL_SIZE, new Dimension(10, 10));
+                map.setGridSize(50, 10);
+                map.addPortal(new Point(3, 9), MAP_START_ROOM, new Point(3, 1));
                 
                 break;
                 
             default:
             case MAP_START_ROOM:
-                map = new Map(null, DEFAULT_CELL_SIZE, new Dimension(10, 10));
-                map.setMapVisualizer(new LabarynthianMapVisualizer());
+                map.setGridSize(10, 10);
+                map.addPortal(new Point(3, 0), MAP_MAZE_START, new Point(3, 8));
+//                map.set;
+//                map.setMapVisualizer(new LabarynthianMapVisualizer());
+                
                 
         }
         
