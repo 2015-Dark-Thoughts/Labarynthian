@@ -42,12 +42,13 @@ public class MapFactory {
             case MAP_START_ROOM:
                 map = new Map(null, DEFAULT_CELL_SIZE, new Dimension(10, 10));
                 map.setMapVisualizer(new LabarynthianMapVisualizer());
+                
         }
         
         return map;
     }
     
-    public static final Color WALL_COLOR = Color.LIGHT_GRAY;//new Color(0, 0, 0);
+    public static final Color WALL_COLOR =  new Color(200, 200, 200, 200);  //Color.LIGHT_GRAY;//new Color(0, 0, 0);
     
     private static class LabarynthianMapVisualizer implements MapVisualizerIntf {
         
@@ -58,17 +59,19 @@ public class MapFactory {
             
             int wallHeight = map.getGrid().getCellHeight();
             int wallWidth = map.getGrid().getCellWidth();
-            Dimension roomInterior = new Dimension(map.getGrid().getCellWidth() * map.getGrid().getColumns(),
-                                                   map.getGrid().getCellHeight() * map.getGrid().getRows());
-            Dimension roomExterior = new Dimension(map.getGrid().getCellWidth() * (map.getGrid().getColumns() + 2),
-                                                   map.getGrid().getCellHeight() * (map.getGrid().getRows() + 2));
+            Dimension roomInterior = new Dimension(map.getCellWidth() * map.getGrid().getColumns(),
+                                                   map.getCellHeight() * map.getGrid().getRows());
+            Dimension roomExterior = new Dimension(map.getCellWidth() * (map.getGrid().getColumns() + 2),
+                                                   map.getCellHeight() * (map.getGrid().getRows() + 2));
             Point topLeft = new Point(map.getPosition().x - map.getGrid().getCellWidth(), 
                                 map.getPosition().y - map.getGrid().getCellHeight());
             
             graphics.fill3DRect(topLeft.x, topLeft.y, wallWidth, roomExterior.height, true); //left wall
             graphics.fill3DRect(topLeft.x, topLeft.y, roomExterior.width, wallHeight, true); // top wall
-            graphics.fill3DRect(topLeft.x + roomInterior.width, topLeft.y, wallWidth, roomExterior.height, true); //right wall
-            graphics.fill3DRect(topLeft.x, topLeft.y + roomExterior.height, roomExterior.width, wallHeight, true); // bottom wall
+            graphics.fill3DRect(topLeft.x + roomInterior.width + map.getCellWidth(), topLeft.y, wallWidth, roomExterior.height, true); //right wall
+            graphics.fill3DRect(topLeft.x, topLeft.y + roomInterior.height + map.getCellHeight(), roomExterior.width, wallHeight, true); // bottom wall
+            
+            map.getGrid().paintComponent(graphics);
             
 //            graphics.fill3DRect(map.getPosition().x - map.getGrid().getCellWidth(), 
 //                                map.getPosition().y - map.getGrid().getCellHeight(), 
