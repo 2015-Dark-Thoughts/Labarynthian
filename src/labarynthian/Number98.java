@@ -98,14 +98,12 @@ public class Number98 {
      */
 //</editor-fold>
     
-
-    
 //    public Point getCoM(){
 //        return new Point(position)
 //    }
 
     public void draw(Graphics graphics) {
-        Point topLeft = drawData.getCellSystemCorrdinate(position);
+        Point topLeft = drawData.getCellSystemCorrdinate(getPosition());
         Point com = new Point(topLeft.x + (drawData.getCellWidth() / 2), topLeft.y + (drawData.getCellHeight() / 2));
         if (candle = true) {
             graphics.setColor(new Color(255, 255, 204, 150));
@@ -131,7 +129,7 @@ public class Number98 {
     
     void move(Direction direction) {
         if ((!paused) && (moving)) {
-            Point newPosition = (Point) position.clone();
+            Point newPosition = (Point) getPosition().clone();
 
             if (direction == Direction.DOWN) {
                 newPosition.y++;
@@ -143,7 +141,7 @@ public class Number98 {
                 newPosition.x++;
             }
             if (locationValidator != null) {
-                position = locationValidator.validateLocation(newPosition);
+                setPosition(locationValidator.validateLocation(newPosition));
             }
         }
 
@@ -169,5 +167,19 @@ public class Number98 {
 
     public void move() {
         move(direction);
+    }
+
+    /**
+     * @return the position
+     */
+    public Point getPosition() {
+        return position;
+    }
+
+    /**
+     * @param position the position to set
+     */
+    public void setPosition(Point position) {
+        this.position = position;
     }
 }
