@@ -65,9 +65,19 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
         }
         character.setGlowInt((int) counter / 2);
 
+//        if (character != null){
+//            character.move();
+//        }
+         
         if (character != null){
-            character.move();
+            if (moveDelayCounter >= moveDelayLimit){
+                moveDelayCounter = 0;
+                character.move(); 
+            } else{
+                moveDelayCounter++;
+            }
         }
+        
     }
 
     @Override
@@ -181,7 +191,8 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
 
                     graphics.setColor(Color.WHITE);
                     graphics.drawString("PRESS SPACE TO BEGIN", (getWidth() / 2) - 50, getHeight() / 2);
-
+                    graphics.drawString("Developer Version Alpha 3.2", (getWidth() / 2) - 50, getHeight() / 3);
+                    
                     break;
 //</editor-fold>
 
