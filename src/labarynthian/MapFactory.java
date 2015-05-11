@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
+import map.Item;
 import map.Map;
 import map.MapVisualizerIntf;
 
@@ -25,6 +26,8 @@ public class MapFactory {
     public static final String MAP_OASIS = "Oasis";
     public static final String MAP_TREE_ROOM = "Tree Room";
     public static final String MAP_BOSS_ROOM = "Boss Room";
+
+    public static final String ITEM_KEY = "Key";
     
     public static Map getMap(String mapName, Point position){
         Map map = new Map(null, DEFAULT_CELL_SIZE, new Dimension(5, 5));
@@ -33,16 +36,25 @@ public class MapFactory {
 
         switch (mapName){
             
+            case MAP_MAZE_EXPLORE:
+                map.setGridSize(40, 60);
+                map.addPortal(new Point(25, 4), MAP_MAZE_START, new Point(18, 5));
+                
+                break;
+                
             case MAP_MAZE_START:
                 map.setGridSize(10, 50);
                 map.addPortal(new Point(3, 9), MAP_START_ROOM, new Point(3, 1));
+                map.addPortal(new Point(6, 6), MAP_MAZE_EXPLORE, new Point(22, 4));
                 
                 break;
+                
                 
             default:
             case MAP_START_ROOM:
                 map.setGridSize(10, 10);
                 map.addPortal(new Point(3, 0), MAP_MAZE_START, new Point(3, 8));
+                map.addItem(new Item(new Point(4, 2), ITEM_KEY));
         }
         
         return map;
