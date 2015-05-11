@@ -28,10 +28,14 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
     private Image title;
     private GameState gameState = GameState.STARTMENU;
     private Number98 character;
-    
+
     private int counter = 0;
+    
+    private Image water, grass, rock, tree;
 
     private boolean showGrid = false;
+
+    public int border = 5;
 
     public LabarynthianEnvironment() {
 
@@ -42,6 +46,11 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
         this.setBackground(Color.BLACK);
 
         setTitle(ResourceTools.loadImageFromResource("resources/title.jpeg"));
+        
+        setWater(ResourceTools.loadImageFromResource("resources/Water_Texture.png"));
+        setGrass(ResourceTools.loadImageFromResource("resources/Grass_Texture.png"));
+        setRock(ResourceTools.loadImageFromResource("resources/Rock_Texture.png"));
+        setTree(ResourceTools.loadImageFromResource("resources/Tree.png"));
 
         grid = new Grid(100, 80, 10, 10, new Point(0, 0), new Color(0, 0, 0));
 
@@ -84,8 +93,6 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
             gameState = GameState.PAUSED;
         } else if (e.getKeyCode() == KeyEvent.VK_G) {
             showGrid = !showGrid;
-        } else if (e.getKeyCode() == KeyEvent.VK_V) {
-            gameState = GameState.MAZESTART;
         } else if (e.getKeyCode() == KeyEvent.VK_UP) {
             if (character != null) {
                 character.move(Direction.UP);
@@ -104,12 +111,11 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
             }
         }
 
-
     }
 
     @Override
     public void keyReleasedHandler(KeyEvent e) {
-        
+
     }
 
     @Override
@@ -146,7 +152,6 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
                     grid.setPosition(new Point((getWidth() / 2) - 100, (getHeight() / 2) - 10));
 
 //                    graphics.fillRect(593, 417, 100, 100);
-                    int border = 5;
                     graphics.fillRect(grid.getPosition().x - border, grid.getPosition().y - border, 100 + (2 * border), 100 + (2 * border));
 
                     graphics.setColor(Color.BLACK);
@@ -184,6 +189,28 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
 
                 //<editor-fold defaultstate="collapsed" desc="OASIS">
                 case OASIS:
+                    int oasisWidth = 1300;
+                    int oasisHeight = 800;
+
+                    grid.setColumns(oasisWidth / 10);
+                    grid.setRows(oasisHeight / 10);
+                    grid.setColor(Color.WHITE);
+                    grid.paintComponent(graphics);
+                    grid.setPosition(new Point(45, 20));
+
+                    graphics.fillRect(grid.getPosition().x - border, grid.getPosition().y - border, oasisWidth + (2 * border), oasisHeight + (2 * border));
+
+                    graphics.setColor(Color.BLACK);
+
+                    graphics.fillRect(grid.getPosition().x, grid.getPosition().y, oasisWidth, oasisHeight);
+                    
+                    graphics.drawImage(getWater(), 100, 100, null);
+                    
+                    
+
+                    if (character != null) {
+                        character.draw(graphics);
+                    }
 
                     break;
 //</editor-fold>
@@ -202,6 +229,11 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
 
                 //<editor-fold defaultstate="collapsed" desc="PAUSED">
                 case PAUSED:
+                    if (character.isPaused()) {
+                    graphics.setColor(Color.WHITE);
+                    graphics.drawString("PAUSED", grid.getCellWidth() + grid.getColumns() / 2, grid.getCellHeight() + grid.getRows() / 2);
+
+                    } 
 
                     break;
 //</editor-fold>
@@ -223,8 +255,7 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
 
                     break;
 //</editor-fold>
-                
-                    
+
             }
 
         }
@@ -297,5 +328,60 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
     }
 //</editor-fold>
 
+    /**
+     * @return the water
+     */
+    public Image getWater() {
+        return water;
+    }
+
+    /**
+     * @param water the water to set
+     */
+    public void setWater(Image water) {
+        this.water = water;
+    }
+
+    /**
+     * @return the grass
+     */
+    public Image getGrass() {
+        return grass;
+    }
+
+    /**
+     * @param grass the grass to set
+     */
+    public void setGrass(Image grass) {
+        this.grass = grass;
+    }
+
+    /**
+     * @return the rock
+     */
+    public Image getRock() {
+        return rock;
+    }
+
+    /**
+     * @param rock the rock to set
+     */
+    public void setRock(Image rock) {
+        this.rock = rock;
+    }
+
+    /**
+     * @return the tree
+     */
+    public Image getTree() {
+        return tree;
+    }
+
+    /**
+     * @param tree the tree to set
+     */
+    public void setTree(Image tree) {
+        this.tree = tree;
+    }
 
 }

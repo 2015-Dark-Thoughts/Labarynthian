@@ -23,7 +23,6 @@ public class Number98 {
     private boolean paused = false;
     private boolean alive = true;
     private boolean candle = false;
-    
 
     public Number98(Point position, LocationValidatorIntf locationValidator, GridDrawData drawData) {
         this.position = position;
@@ -35,6 +34,14 @@ public class Number98 {
     /**
      * @return the drawData
      */
+    public void togglePaused() {
+        if (paused == true) {
+            paused = false;
+        } else {
+            paused = true;
+        }
+    }
+
     public GridDrawData getDrawData() {
         return drawData;
     }
@@ -92,22 +99,14 @@ public class Number98 {
      * @return the spreadRate
      */
 //</editor-fold>
-    
-
-    
-//    public Point getCoM(){
-//        return new Point(position)
-//    }
 
     public void draw(Graphics graphics) {
         Point topLeft = drawData.getCellSystemCorrdinate(position);
         Point com = new Point(topLeft.x + (drawData.getCellWidth() / 2), topLeft.y + (drawData.getCellHeight() / 2));
         if (candle = true) {
             graphics.setColor(new Color(255, 255, 204, 150));
-            graphics.fillOval(com.x - getRadiusSize(), com.y - getRadiusSize(), 
+            graphics.fillOval(com.x - getRadiusSize(), com.y - getRadiusSize(),
                     2 * getRadiusSize(), 2 * getRadiusSize());
-//            graphics.fillOval(topLeft.x - (drawData.getCellWidth()), topLeft.y - (drawData.getCellHeight() / 2), 
-//                    ((drawData.getCellWidth()) + getRadiusSize()) - 10, ((drawData.getCellHeight()) + getRadiusSize()) - 10);
         }
         graphics.setColor(Color.GRAY);
         graphics.fillOval(topLeft.x, topLeft.y, drawData.getCellWidth(), drawData.getCellHeight());
@@ -147,8 +146,8 @@ public class Number98 {
     public void setGlowInt(int glowInt) {
         this.glowInt = glowInt;
     }
-    
-    private int getRadiusSize(){
+
+    private int getRadiusSize() {
         return Math.abs(70 - glowInt) + 20;
     }
 }
