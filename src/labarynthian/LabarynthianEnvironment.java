@@ -107,50 +107,26 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
         } else if (e.getKeyCode() == KeyEvent.VK_V) {
             gameState = GameState.MAZESTART;
         } else if (e.getKeyCode() == KeyEvent.VK_UP) {
-            if (character != null) {
-                character.move(Direction.UP);
-                character.start();
-            }
+          character.move(Direction.UP);  
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            if (character != null) {
-                character.move(Direction.DOWN);
-                character.start();
-            }
+          character.move(Direction.DOWN);
         } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            if (character != null) {
-                character.move(Direction.LEFT);
-                character.start();
-            }
+          character.move(Direction.LEFT);
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            if (character != null) {
-                character.move(Direction.RIGHT);
-                character.start();
-            }
-        } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            if (character != null) {
-                character.move(Direction.DOWN);
-            }
-        } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            if (character != null) {
-                character.move(Direction.LEFT);
-            }
-        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            if (character != null) {
-                character.move(Direction.RIGHT);
-            }
-        }
+          character.move(Direction.RIGHT);
+      }  
     }
 
     @Override
     public void keyReleasedHandler(KeyEvent e) {
-        if ((e.getKeyCode() == KeyEvent.VK_UP) || 
-            (e.getKeyCode() == KeyEvent.VK_DOWN) ||
-            (e.getKeyCode() == KeyEvent.VK_LEFT) ||
-            (e.getKeyCode() == KeyEvent.VK_RIGHT) ){
-            if (character != null) {
-                character.stop();
-            }
-        }
+//        if ((e.getKeyCode() == KeyEvent.VK_UP) || 
+//            (e.getKeyCode() == KeyEvent.VK_DOWN) ||
+//            (e.getKeyCode() == KeyEvent.VK_LEFT) ||
+//            (e.getKeyCode() == KeyEvent.VK_RIGHT) ){
+//            if (character != null) {
+//                character.stop();
+//            }
+        
 //        if (e.getKeyCode() == KeyEvent.VK_UP) {
 //            if (character != null) {
 //                character.stop();
