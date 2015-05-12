@@ -130,7 +130,7 @@ public class Number98 {
     
     
     void move(Direction direction) {
-        if ((!paused) && (moving)) {
+        if (! paused) {
             Point newPosition = (Point) position.clone();
 
             if (direction == Direction.DOWN) {
