@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -33,7 +34,7 @@ public class Number98 {
         this.locationValidator = locationValidator;
         this.drawData = drawData;
         this.direction = direction;
-        this.moving = false;
+        this.moving = true;
     }
 
     //<editor-fold defaultstate="collapsed" desc="Getters and Setters">
@@ -94,60 +95,6 @@ public class Number98 {
     }
 
     /**
-     * @return the spreadRate
-     */
-//</editor-fold>
-    
-//    public Point getCoM(){
-//        return new Point(position)
-//    }
-
-    public void draw(Graphics graphics) {
-        Point topLeft = drawData.getCellSystemCorrdinate(getPosition());
-        Point com = new Point(topLeft.x + (drawData.getCellWidth() / 2), topLeft.y + (drawData.getCellHeight() / 2));
-        if (candle = true) {
-            graphics.setColor(new Color(255, 255, 204, 150));
-            graphics.fillOval(com.x - getRadiusSize(), com.y - getRadiusSize(), 
-                    2 * getRadiusSize(), 2 * getRadiusSize());
-//            graphics.fillOval(topLeft.x - (drawData.getCellWidth()), topLeft.y - (drawData.getCellHeight() / 2), 
-//                    ((drawData.getCellWidth()) + getRadiusSize()) - 10, ((drawData.getCellHeight()) + getRadiusSize()) - 10);
-        }
-        graphics.setColor(Color.GRAY);
-        graphics.fillOval(topLeft.x, topLeft.y, drawData.getCellWidth(), drawData.getCellHeight());
-
-    }
-
-    public void stop() {
-        this.moving = false;
-    }
-    
-    public void start() {
-        this.moving = true;
-    }
-    
-    
-    
-    void move(Direction direction) {
-        if ((!paused) && (moving)) {
-            Point newPosition = (Point) getPosition().clone();
-
-            if (direction == Direction.DOWN) {
-                newPosition.y++;
-            } else if (direction == Direction.UP) {
-                newPosition.y--;
-            } else if (direction == Direction.LEFT) {
-                newPosition.x--;
-            } else if (direction == Direction.RIGHT) {
-                newPosition.x++;
-            }
-            if (locationValidator != null) {
-                setPosition(locationValidator.validateLocation(newPosition));
-            }
-        }
-
-    }
-
-    /**
      * @return the glowInt
      */
     public int getGlowInt() {
@@ -161,6 +108,9 @@ public class Number98 {
         this.glowInt = glowInt;
     }
     
+    /**
+     * @return the spreadRate
+     */
     private int getRadiusSize(){
         return Math.abs(70 - glowInt) + 20;
     }
@@ -182,4 +132,51 @@ public class Number98 {
     public void setPosition(Point position) {
         this.position = position;
     }
+//</editor-fold>
+    
+
+    public void draw(Graphics graphics) {
+        Point topLeft = drawData.getCellSystemCorrdinate(getPosition());
+        Point com = new Point(topLeft.x + (drawData.getCellWidth() / 2), topLeft.y + (drawData.getCellHeight() / 2));
+        
+        if (candle = true) {
+            graphics.setColor(new Color(255, 255, 204, 150));
+            graphics.fillOval(com.x - getRadiusSize(), com.y - getRadiusSize(), 
+                    2 * getRadiusSize(), 2 * getRadiusSize());
+            graphics.fillOval(topLeft.x - (drawData.getCellWidth()), topLeft.y - (drawData.getCellHeight() / 2), 
+                    ((drawData.getCellWidth()) + getRadiusSize()) - 10, ((drawData.getCellHeight()) + getRadiusSize()) - 10);
+        }
+        graphics.setColor(Color.GRAY);
+        graphics.fillOval(topLeft.x, topLeft.y, drawData.getCellWidth(), drawData.getCellHeight());
+        
+    }
+
+    public void stop() {
+        this.moving = false;
+    }
+    
+    public void start() {
+        this.moving = true;
+    }
+    
+    void move(Direction direction) {
+//        if ((!paused) && (moving)) {
+        if (true) {
+            Point newPosition = (Point) getPosition().clone();
+
+            if (direction == Direction.DOWN) {
+                newPosition.y++;
+            } else if (direction == Direction.UP) {
+                newPosition.y--;
+            } else if (direction == Direction.LEFT) {
+                newPosition.x--;
+            } else if (direction == Direction.RIGHT) {
+                newPosition.x++;
+            }
+            if (locationValidator != null) {
+                setPosition(locationValidator.validateLocation(newPosition));
+            }
+        }
+    }
 }
+

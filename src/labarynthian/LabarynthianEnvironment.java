@@ -8,7 +8,6 @@ package labarynthian;
 
 import environment.Environment;
 import environment.LocationValidatorIntf;
-import grid.Grid;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import images.ResourceTools;
@@ -24,22 +23,20 @@ import map.PortalEventHandlerIntf;
  *
  * @author ilovesoccer127
  */
-class LabarynthianEnvironment extends Environment implements LocationValidatorIntf, 
+class LabarynthianEnvironment extends Environment implements LocationValidatorIntf,
         GridDrawData, PortalEventHandlerIntf {
 
     private Map map;
-    
-    
-    Grid grid;
+
+//    Grid grid;
     private Image title;
     private GameState gameState = GameState.STARTMENU;
-    private Number98 character;
     private Number98 c98;
-    
+
     private int counter = 0;
 
     public int MEDIUM_SPEED = 7;
-    
+
     public int moveDelayLimit = MEDIUM_SPEED;
     public int moveDelayCounter = 7;
 
@@ -55,15 +52,10 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
 
         setTitle(ResourceTools.loadImageFromResource("resources/title.jpeg"));
 
-        grid = new Grid(100, 80, 10, 10, new Point(0, 0), new Color(0, 0, 0));
-
         setGameState(GameState.STARTMENU);
 
 //        audio.AudioPlayer.play("/resources/MenuMusic.wav");
-
-        character = new Number98(new Point(5, 5), this, this);
-        
-        c98 = new Number98(new Point(4, 0), this, this);
+        c98 = new Number98(new Point(5, 5), this, this);
         setMap(MapFactory.getMap(MapFactory.MAP_START_ROOM, new Point(100, 300)));
     }
 
@@ -74,122 +66,103 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
         } else {
             counter = 80;
         }
-        character.setGlowInt((int) counter / 2);
+        c98.setGlowInt((int) counter / 2);
 
-        if (character != null){
-            character.move();
-        }
-        
-
-        if (c98 != null){
+        if (c98 != null) {
             c98.setGlowInt((int) counter / 2);
-            c98.move();
         }
+
     }
 
     @Override
     public void keyPressedHandler(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_1) {
-            gameState = GameState.STARTROOM;
+            setGameState(GameState.STARTROOM);
         } else if (e.getKeyCode() == KeyEvent.VK_2) {
-            gameState = GameState.MAZESTART;
+            setGameState(GameState.MAZESTART);
         } else if (e.getKeyCode() == KeyEvent.VK_3) {
-            gameState = GameState.OASIS;
+            setGameState(GameState.OASIS);
         } else if (e.getKeyCode() == KeyEvent.VK_4) {
-            gameState = GameState.MAZEEXPLORE;
+            setGameState(GameState.MAZEEXPLORE);
         } else if (e.getKeyCode() == KeyEvent.VK_5) {
-            gameState = GameState.TREEROOM;
+            setGameState(GameState.TREEROOM);
         } else if (e.getKeyCode() == KeyEvent.VK_6) {
-            gameState = GameState.BOSSROOM;
+            setGameState(GameState.BOSSROOM);
         } else if (e.getKeyCode() == KeyEvent.VK_7) {
-            gameState = GameState.BATTLE;
+            setGameState(GameState.BATTLE);
         } else if (e.getKeyCode() == KeyEvent.VK_8) {
-            gameState = GameState.END;
+            setGameState(GameState.END);
         } else if (e.getKeyCode() == KeyEvent.VK_9) {
-            gameState = GameState.DEAD;
+            setGameState(GameState.DEAD);
         } else if (e.getKeyCode() == KeyEvent.VK_P) {
-            gameState = GameState.PAUSED;
+            setGameState(GameState.PAUSED);
         } else if (e.getKeyCode() == KeyEvent.VK_G) {
             showGrid = !showGrid;
         } else if (e.getKeyCode() == KeyEvent.VK_V) {
-            gameState = GameState.MAZESTART;
+            setGameState(GameState.MAZESTART);
         } else if (e.getKeyCode() == KeyEvent.VK_UP) {
-            if (character != null) {
-                character.move(Direction.UP);
-                character.start();
-
-                move(Direction.UP);
+            if (c98 != null) {
+                c98.move(Direction.UP);
             }
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            if (character != null) {
-//                character.move(Direction.DOWN);
-//                character.start();
-                
-                move(Direction.DOWN);
+            if (c98 != null) {
+                c98.move(Direction.DOWN);
+                System.out.println("DOWN");
             }
         } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            if (character != null) {
-//                character.move(Direction.LEFT);
-//                character.start();
-                
-                move(Direction.LEFT);
+            if (c98 != null) {
+                c98.move(Direction.LEFT);
             }
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            if (character != null) {
-//                character.move(Direction.RIGHT);
-//                character.start();
-                
-                move(Direction.RIGHT);
+            if (c98 != null) {
+                c98.move(Direction.RIGHT);
             }
-        } 
-//        else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-//            if (character != null) {
-//                character.move(Direction.DOWN);
-//            }
-//        } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-//            if (character != null) {
-//                character.move(Direction.LEFT);
-//            }
-//        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-//            if (character != null) {
-//                character.move(Direction.RIGHT);
-//            }
-//        }
+        }
+    }
+
+    /**
+     * @return the gameState
+     */
+    public GameState getGameState() {
+        return gameState;
+    }
+
+    /**
+     * @param gameState the gameState to set
+     */
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
+    }
+
+    /**
+     * @return the title
+     */
+    public Image getTitle() {
+        return title;
+    }
+
+    /**
+     * @param title the title to set
+     */
+    public void setTitle(Image title) {
+        this.title = title;
     }
 
     @Override
     public void keyReleasedHandler(KeyEvent e) {
-        if ((e.getKeyCode() == KeyEvent.VK_UP) || 
-            (e.getKeyCode() == KeyEvent.VK_DOWN) ||
-            (e.getKeyCode() == KeyEvent.VK_LEFT) ||
-            (e.getKeyCode() == KeyEvent.VK_RIGHT) ){
-            if (character != null) {
-                character.stop();
+
+        if ((e.getKeyCode() == KeyEvent.VK_UP)
+                || (e.getKeyCode() == KeyEvent.VK_DOWN)
+                || (e.getKeyCode() == KeyEvent.VK_LEFT)
+                || (e.getKeyCode() == KeyEvent.VK_RIGHT)) {
+            if (c98 != null) {
                 c98.stop();
             }
         }
-//        if (e.getKeyCode() == KeyEvent.VK_UP) {
-//            if (character != null) {
-//                character.stop();
-//            }
-//        } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-//            if (character != null) {
-//                character.stop();
-//            }
-//        } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-//            if (character != null) {
-//                character.stop();
-//            }
-//        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-//            if (character != null) {
-//                character.stop();
-//            }
-//        }
     }
 
     @Override
     public void environmentMouseClicked(MouseEvent e) {
-
     }
 
     @Override
@@ -199,61 +172,60 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
             switch (gameState) {
                 //<editor-fold defaultstate="collapsed" desc="STARTMENU">
                 case STARTMENU:
-                    grid.setColumns(getWidth());
-                    grid.setRows(getHeight());
-                    grid.setColor(Color.BLACK);
-                    grid.paintComponent(graphics);
+//                    grid.setColumns(getWidth());
+//                    grid.setRows(getHeight());
+//                    grid.setColor(Color.BLACK);
+//                    grid.paintComponent(graphics);
 
                     graphics.drawImage(getTitle(), 400, 100, null);
 
                     graphics.setColor(Color.WHITE);
                     graphics.drawString("PRESS SPACE TO BEGIN", (getWidth() / 2) - 50, getHeight() / 2);
+                    graphics.drawString("Developer Version Alpha 3.2", (getWidth() / 2) - 50, getHeight() / 3);
 
                     break;
 //</editor-fold>
 
                 //<editor-fold defaultstate="collapsed" desc="STARTROOM">
                 case STARTROOM:
-                    
-                    if (getMap() != null){
+
+                    if (getMap() != null) {
                         getMap().drawMap(graphics);
                     }
-                    
-                    if (c98 != null){
+
+                    if (c98 != null) {
                         c98.draw(graphics);
                     }
-                    
-                    grid.setColumns(10);
-                    grid.setRows(10);
-                    grid.setColor(Color.LIGHT_GRAY);
-                    grid.paintComponent(graphics);
-                    grid.setPosition(new Point((getWidth() / 2) - 100, (getHeight() / 2) - 10));
 
-//                    graphics.fillRect(593, 417, 100, 100);
-                    int border = 5;
-                    graphics.fillRect(grid.getPosition().x - border, grid.getPosition().y - border, 100 + (2 * border), 100 + (2 * border));
-
-                    graphics.setColor(Color.BLACK);
-//                    graphics.fillRect(628, 417, 30, 10);
-                    graphics.fillRect(grid.getPosition().x, grid.getPosition().y, 100, 100);
-//=======
-//                    graphics.fillRect(grid.getPosition().x, 100, 100, 100);
-//>>>>>>> Ethan-game-music
-//                    graphics.fillRect(599, 422, 90, 90);
-                    graphics.fillRect(grid.getPosition().x + (3 * grid.getCellWidth()), grid.getPosition().y - border, 100 - (6 * grid.getCellWidth()), 2 * border);
-//                    graphics.fillRect(599, 422, 90, 90);
-
-                    if (showGrid) {
-                        grid.paintComponent(graphics);
-                    }
-
-//                    if (character != null) {
-//                        character.draw(graphics);
+//                    grid.setColumns(10);
+//                    grid.setRows(10);
+//                    grid.setColor(Color.LIGHT_GRAY);
+//                    grid.paintComponent(graphics);
+//                    grid.setPosition(new Point((getWidth() / 2) - 100, (getHeight() / 2) - 10));
+//
+////                    graphics.fillRect(593, 417, 100, 100);
+//                    int border = 5;
+//                    graphics.fillRect(grid.getPosition().x - border, grid.getPosition().y - border, 100 + (2 * border), 100 + (2 * border));
+//
+//                    graphics.setColor(Color.BLACK);
+////                    graphics.fillRect(628, 417, 30, 10);
+//                    graphics.fillRect(grid.getPosition().x, grid.getPosition().y, 100, 100);
+////=======
+////                    graphics.fillRect(grid.getPosition().x, 100, 100, 100);
+////>>>>>>> Ethan-game-music
+////                    graphics.fillRect(599, 422, 90, 90);
+//                    graphics.fillRect(grid.getPosition().x + (3 * grid.getCellWidth()), grid.getPosition().y - border, 100 - (6 * grid.getCellWidth()), 2 * border);
+////                    graphics.fillRect(599, 422, 90, 90);
+//
+//                    if (showGrid) {
+//                        grid.paintComponent(graphics);
 //                    }
-                    if (grid.getPosition() == grid.getCellLocationFromSystemCoordinate(1, 5)) {
-                        gameState = GameState.MAZESTART;
-                    }
-
+//                    if (c98 != null) {
+//                        c98.draw(graphics);
+//                    }
+//                    if (grid.getPosition() == grid.getCellLocationFromSystemCoordinate(1, 5)) {
+//                        gameState = GameState.MAZESTART;
+//                    }
                     break;
 //</editor-fold>//</editor-fold>
 
@@ -310,37 +282,9 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
 
                     break;
 //</editor-fold>
-                                 
+
             }
         }
-    }
-
-    /**
-     * @return the title
-     */
-    public Image getTitle() {
-        return title;
-    }
-
-    /**
-     * @param title the title to set
-     */
-    public void setTitle(Image title) {
-        this.title = title;
-    }
-
-    /**
-     * @return the gameState
-     */
-    public GameState getGameState() {
-        return gameState;
-    }
-
-    /**
-     * @param gameState the gameState to set
-     */
-    public void setGameState(GameState gameState) {
-        this.gameState = gameState;
     }
 
 //<editor-fold defaultstate="collapsed" desc="GridDrawData">
@@ -349,13 +293,13 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
 //        return grid.getCellHeight();
         return map.getCellHeight();
     }
-    
+
     @Override
     public int getCellWidth() {
 //        return grid.getCellWidth();
         return map.getCellWidth();
     }
-    
+
     @Override
     public Point getCellSystemCorrdinate(Point cellCorrdinate) {
 //        return grid.getCellSystemCoordinate(cellCorrdinate);
@@ -370,26 +314,26 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
             point.x = 0;
         }
 
-        if (point.x > grid.getColumns() - 1) {
-            point.x = grid.getColumns() - 1;
+        if (point.x > map.getGrid().getColumns() - 1) {
+            point.x = map.getGrid().getColumns() - 1;
         }
 
         if (point.y < 0) {
             point.y = 0;
         }
 
-        if (point.y > grid.getRows() - 1) {
-            point.y = grid.getRows() - 1;
+        if (point.y > map.getGrid().getRows() - 1) {
+            point.y = map.getGrid().getRows() - 1;
         }
         newLocation = point;
-        
+
         if (map != null) {
             map.validateLocation(point);
         }
-        
+
         return newLocation;
     }
-    
+
     private Point newLocation;
 //</editor-fold>
 
@@ -421,7 +365,7 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
 
     private void move(Direction direction) {
 //        System.out.println("Move " + direction.toString());
-        if (c98 != null){
+        if (c98 != null) {
             c98.move(direction);
             c98.start();
         }

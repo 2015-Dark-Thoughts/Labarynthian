@@ -15,7 +15,7 @@ import map.MapVisualizerIntf;
 
 /**
  *
- * @author kevin.lawrence
+ * @author ConnerCrabtree
  */
 public class MapFactory {
     public static final Dimension DEFAULT_CELL_SIZE = new Dimension(10, 10);
@@ -94,7 +94,6 @@ public class MapFactory {
                 graphics.fillOval(tl.x, tl.y, wallWidth, wallHeight);
             });
         }
-        
     }
     
 }
