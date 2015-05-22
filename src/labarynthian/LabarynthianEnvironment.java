@@ -189,7 +189,7 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
                     graphics.fillRect(grid.getPosition().x, grid.getPosition().y, 100, 100);
 //=======
 //                    graphics.fillRect(grid.getPosition().x, 100, 100, 100);
-//>>>>>>> Ethan-game-music
+
 //                    graphics.fillRect(599, 422, 90, 90);
                     graphics.fillRect(grid.getPosition().x + (3 * grid.getCellWidth()), grid.getPosition().y - border, 100 - (6 * grid.getCellWidth()), 2 * border);
 //                    graphics.fillRect(599, 422, 90, 90);
@@ -198,6 +198,8 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
                         grid.paintComponent(graphics);
                     }
 
+                    
+                    
                     if (character != null) {
                         character.draw(graphics);
                     }
