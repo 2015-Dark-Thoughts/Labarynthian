@@ -12,6 +12,7 @@ import java.awt.Point;
 import map.Item;
 import map.Map;
 import map.MapVisualizerIntf;
+import map.ObstacleType;
 
 /**
  *
@@ -36,25 +37,48 @@ public class MapFactory {
 
         switch (mapName){
             
-            case MAP_MAZE_EXPLORE:
-                map.setGridSize(40, 60);
-                map.addPortal(new Point(25, 4), MAP_MAZE_START, new Point(18, 5));
-                
-                break;
-                
-            case MAP_MAZE_START:
-                map.setGridSize(10, 50);
-                map.addPortal(new Point(3, 9), MAP_START_ROOM, new Point(3, 1));
-                map.addPortal(new Point(6, 6), MAP_MAZE_EXPLORE, new Point(22, 4));
-                
-                break;
-                
-                
             default:
             case MAP_START_ROOM:
                 map.setGridSize(10, 10);
                 map.addPortal(new Point(3, 0), MAP_MAZE_START, new Point(3, 8));
                 map.addItem(new Item(new Point(4, 2), ITEM_KEY));
+                System.out.println("MAP_START_ROOM");
+                
+                case MAP_MAZE_START:
+                map.setGridSize(10, 50);
+                map.addPortal(new Point(3, 9), MAP_START_ROOM, new Point(3, 1));
+                map.addPortal(new Point(6, 6), MAP_MAZE_EXPLORE, new Point(22, 4));
+                map.addObstacle(new Point(1,4), ObstacleType.BARRIER);
+                map.addObstacle(new Point(2,4), ObstacleType.BARRIER);
+                map.addObstacle(new Point(3,4), ObstacleType.BARRIER);
+                map.addObstacle(new Point(4,4), ObstacleType.BARRIER);
+                map.addObstacle(new Point(5,4), ObstacleType.BARRIER);
+                    System.out.println("MAP_MAZE_START");
+                
+                break;
+            
+            case MAP_MAZE_EXPLORE:
+                map.setGridSize(40, 60);
+                map.addPortal(new Point(25, 4), MAP_MAZE_START, new Point(18, 5));
+                map.addPortal(new Point (24, 3), MAP_OASIS, new Point(19, 6));
+                System.out.println("MAP_MAZE_EXPLORE");
+                break;
+            
+            case MAP_OASIS:
+                map.setGridSize(300, 300);
+                map.addPortal(new Point (5, 5), MAP_MAZE_START, new Point (26, 4));
+                System.out.println("MAP_OASIS");
+                
+            case MAP_TREE_ROOM:
+                
+                break;
+                
+            case MAP_BOSS_ROOM:
+                
+                break;
+                
+                
+            
         }
         
         return map;

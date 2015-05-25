@@ -140,11 +140,11 @@ public class Number98 {
         Point com = new Point(topLeft.x + (drawData.getCellWidth() / 2), topLeft.y + (drawData.getCellHeight() / 2));
         
         if (candle = true) {
+            
             graphics.setColor(new Color(255, 255, 204, 150));
+            
             graphics.fillOval(com.x - getRadiusSize(), com.y - getRadiusSize(), 
                     2 * getRadiusSize(), 2 * getRadiusSize());
-            graphics.fillOval(topLeft.x - (drawData.getCellWidth()), topLeft.y - (drawData.getCellHeight() / 2), 
-                    ((drawData.getCellWidth()) + getRadiusSize()) - 10, ((drawData.getCellHeight()) + getRadiusSize()) - 10);
         }
         graphics.setColor(Color.GRAY);
         graphics.fillOval(topLeft.x, topLeft.y, drawData.getCellWidth(), drawData.getCellHeight());
