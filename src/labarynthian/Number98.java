@@ -8,6 +8,7 @@ package labarynthian;
 
 import environment.LocationValidatorIntf;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
 
@@ -138,6 +139,7 @@ public class Number98 {
     public void draw(Graphics graphics) {
         Point topLeft = drawData.getCellSystemCorrdinate(getPosition());
         Point com = new Point(topLeft.x + (drawData.getCellWidth() / 2), topLeft.y + (drawData.getCellHeight() / 2));
+        graphics.setColor(Color.WHITE);
         
         if (candle = true) {
             
@@ -148,6 +150,10 @@ public class Number98 {
         }
         graphics.setColor(Color.GRAY);
         graphics.fillOval(topLeft.x, topLeft.y, drawData.getCellWidth(), drawData.getCellHeight());
+        graphics.setColor(Color.WHITE);
+        graphics.setFont(new Font("Calibri", Font.PLAIN, 10));
+        graphics.drawString("98", drawData.getCellSystemCorrdinate(getPosition()).x , drawData.getCellSystemCorrdinate(getPosition()).y + 8);
+
         
     }
 
