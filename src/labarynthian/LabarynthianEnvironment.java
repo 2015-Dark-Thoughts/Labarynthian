@@ -12,10 +12,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import images.ResourceTools;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
 import map.Map;
+import map.Obstacle;
+import map.ObstacleEventHandlerIntf;
 import map.Portal;
 import map.PortalEventHandlerIntf;
 
@@ -24,7 +27,7 @@ import map.PortalEventHandlerIntf;
  * @author ilovesoccer127
  */
 class LabarynthianEnvironment extends Environment implements LocationValidatorIntf,
-        GridDrawData, PortalEventHandlerIntf {
+        GridDrawData, PortalEventHandlerIntf, ObstacleEventHandlerIntf {
 
     private Map map;
 
@@ -41,6 +44,7 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
     public int moveDelayCounter = 7;
 
     private boolean showGrid = false;
+    private boolean paused = false;
 
     public LabarynthianEnvironment() {
 
@@ -53,10 +57,11 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
         setTitle(ResourceTools.loadImageFromResource("resources/title.jpeg"));
 
         setGameState(GameState.STARTMENU);
+        
 
 //        audio.AudioPlayer.play("/resources/MenuMusic.wav");
         c98 = new Number98(new Point(5, 5), this, this);
-        setMap(MapFactory.getMap(MapFactory.MAP_START_ROOM, new Point(100, 300)));
+        setMap(MapFactory.getMap(MapFactory.MAP_START_ROOM, new Point(getWidth() + (getWidth() / 2) , getHeight() + (getHeight() / 2))));
     }
 
     @Override
@@ -95,7 +100,8 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
         } else if (e.getKeyCode() == KeyEvent.VK_9) {
             setGameState(GameState.DEAD);
         } else if (e.getKeyCode() == KeyEvent.VK_P) {
-            setGameState(GameState.PAUSED);
+//            setGameState(GameState.PAUSED);
+            togglePaused();
         } else if (e.getKeyCode() == KeyEvent.VK_G) {
             showGrid = !showGrid;
         } else if (e.getKeyCode() == KeyEvent.VK_V) {
@@ -202,9 +208,14 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
 
                 //<editor-fold defaultstate="collapsed" desc="PAUSED">
                 case PAUSED:
-
+                    if (paused = true) {
+                    graphics.setColor(Color.WHITE);
+                    graphics.drawString("PAUSED", Font.BOLD, 100);
+                    setPaused(paused = false);
+                    }
+                   
                     break;
-//</editor-fold>
+//</editor-fold>//</editor-fold>
 
                 //<editor-fold defaultstate="collapsed" desc="BATTLE">
                 case BATTLE:
@@ -285,6 +296,7 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
     public void setMap(Map map) {
         this.map = map;
         this.map.setPortalEventHandler(this);
+        this.map.setObstacleEventHandler(this);
     }
 
 //<editor-fold defaultstate="collapsed" desc="PortalEventHandlerIntf">
@@ -303,5 +315,43 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
             c98.start();
         }
     }
+
+    /**
+     * @return the paused
+     */
+    public boolean isPaused() {
+        c98.stop();
+        System.out.println("IS PAUSED");
+        return paused;
+        
+    }
+
+    /**
+     * @param paused the paused to set
+     */
+    public void setPaused(boolean paused) {
+            this.paused = paused;
+    }
+    public void togglePaused(){
+        if (paused = false) {
+            setPaused(paused = true);
+            System.out.println("False");
+        } if (paused = true) {
+            System.out.println("True");
+            setPaused(paused = false);
+        } else{
+            setPaused(paused = true);
+        }
+        
+    }
+
+    @Override
+//<editor-fold defaultstate="collapsed" desc="ObstacleEventHandlerIntf">
+    public boolean obstacleEvent(Obstacle obstacle) {
+        System.out.println("OUCH!!!!");
+        return false;
+        
+    }
+//</editor-fold>
 
 }

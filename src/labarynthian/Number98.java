@@ -71,6 +71,7 @@ public class Number98 {
      * @return the paused
      */
     public boolean isPaused() {
+        this.stop();
         return paused;
     }
 
@@ -151,8 +152,8 @@ public class Number98 {
         graphics.setColor(Color.GRAY);
         graphics.fillOval(topLeft.x, topLeft.y, drawData.getCellWidth(), drawData.getCellHeight());
         graphics.setColor(Color.WHITE);
-        graphics.setFont(new Font("Calibri", Font.PLAIN, 10));
-        graphics.drawString("98", drawData.getCellSystemCorrdinate(getPosition()).x , drawData.getCellSystemCorrdinate(getPosition()).y + 8);
+        graphics.setFont(new Font("Times New Roman", Font.PLAIN, 10));
+        graphics.drawString("98", drawData.getCellSystemCorrdinate(getPosition()).x + 1 , drawData.getCellSystemCorrdinate(getPosition()).y + 9);
 
         
     }

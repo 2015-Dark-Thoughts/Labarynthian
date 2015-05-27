@@ -48,6 +48,8 @@ public class MapFactory {
                 map.setGridSize(10, 50);
                 map.addPortal(new Point(1, 1), MAP_START_ROOM, new Point(5, 1));
                 map.addPortal(new Point(1, 2), MAP_MAZE_EXPLORE, new Point(6, 1));
+                
+                
 //                map.addObstacle(new Point(1,4), ObstacleType.BARRIER);
 //                map.addObstacle(new Point(2,4), ObstacleType.BARRIER);
 //                map.addObstacle(new Point(3,4), ObstacleType.BARRIER);
@@ -62,6 +64,8 @@ public class MapFactory {
                 map.setGridSize(40, 60);
                 map.addPortal(new Point(1, 1), MAP_MAZE_START, new Point(7, 1));
                 map.addPortal(new Point (1, 1), MAP_OASIS, new Point(8, 1));
+                map.addObstacleRange(3, 1, 3, 2, ObstacleType.BARRIER);
+                map.addObstacleRange(3, 5, 22, 16, ObstacleType.BARRIER);
                 System.out.println("MAP_MAZE_EXPLORE");
                 break;
             
@@ -124,6 +128,7 @@ public class MapFactory {
             map.getObstacleLocations().stream().forEach((obstacleLocation) -> {
                 Point tl = map.getGrid().getCellSystemCoordinate(obstacleLocation);
                 graphics.fillRect(tl.x, tl.y, wallWidth, wallHeight);
+//                System.out.println("obstacle....");
             });
         }
     }
