@@ -8,6 +8,7 @@ package labarynthian;
 
 import environment.LocationValidatorIntf;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
 
@@ -70,6 +71,7 @@ public class Number98 {
      * @return the paused
      */
     public boolean isPaused() {
+        this.stop();
         return paused;
     }
 
@@ -138,16 +140,21 @@ public class Number98 {
     public void draw(Graphics graphics) {
         Point topLeft = drawData.getCellSystemCorrdinate(getPosition());
         Point com = new Point(topLeft.x + (drawData.getCellWidth() / 2), topLeft.y + (drawData.getCellHeight() / 2));
+        graphics.setColor(Color.WHITE);
         
         if (candle = true) {
+            
             graphics.setColor(new Color(255, 255, 204, 150));
+            
             graphics.fillOval(com.x - getRadiusSize(), com.y - getRadiusSize(), 
                     2 * getRadiusSize(), 2 * getRadiusSize());
-            graphics.fillOval(topLeft.x - (drawData.getCellWidth()), topLeft.y - (drawData.getCellHeight() / 2), 
-                    ((drawData.getCellWidth()) + getRadiusSize()) - 10, ((drawData.getCellHeight()) + getRadiusSize()) - 10);
         }
         graphics.setColor(Color.GRAY);
         graphics.fillOval(topLeft.x, topLeft.y, drawData.getCellWidth(), drawData.getCellHeight());
+        graphics.setColor(Color.WHITE);
+        graphics.setFont(new Font("Times New Roman", Font.PLAIN, 10));
+        graphics.drawString("98", drawData.getCellSystemCorrdinate(getPosition()).x + 1 , drawData.getCellSystemCorrdinate(getPosition()).y + 9);
+
         
     }
 

@@ -12,10 +12,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import images.ResourceTools;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
 import map.Map;
+import map.Obstacle;
+import map.ObstacleEventHandlerIntf;
 import map.Portal;
 import map.PortalEventHandlerIntf;
 
@@ -24,7 +27,7 @@ import map.PortalEventHandlerIntf;
  * @author ilovesoccer127
  */
 class LabarynthianEnvironment extends Environment implements LocationValidatorIntf,
-        GridDrawData, PortalEventHandlerIntf {
+        GridDrawData, PortalEventHandlerIntf, ObstacleEventHandlerIntf {
 
     private Map map;
 
@@ -41,6 +44,7 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
     public int moveDelayCounter = 7;
 
     private boolean showGrid = false;
+    private boolean paused = false;
 
     public LabarynthianEnvironment() {
 
@@ -53,10 +57,11 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
         setTitle(ResourceTools.loadImageFromResource("resources/title.jpeg"));
 
         setGameState(GameState.STARTMENU);
+        
 
 //        audio.AudioPlayer.play("/resources/MenuMusic.wav");
         c98 = new Number98(new Point(5, 5), this, this);
-        setMap(MapFactory.getMap(MapFactory.MAP_START_ROOM, new Point(100, 300)));
+        setMap(MapFactory.getMap(MapFactory.MAP_START_ROOM, new Point(getWidth() + (getWidth() / 2) , getHeight() + (getHeight() / 2))));
     }
 
     @Override
@@ -95,7 +100,8 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
         } else if (e.getKeyCode() == KeyEvent.VK_9) {
             setGameState(GameState.DEAD);
         } else if (e.getKeyCode() == KeyEvent.VK_P) {
-            setGameState(GameState.PAUSED);
+//            setGameState(GameState.PAUSED);
+            togglePaused();
         } else if (e.getKeyCode() == KeyEvent.VK_G) {
             showGrid = !showGrid;
         } else if (e.getKeyCode() == KeyEvent.VK_V) {
@@ -107,7 +113,6 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             if (c98 != null) {
                 c98.move(Direction.DOWN);
-                System.out.println("DOWN");
             }
         } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             if (c98 != null) {
@@ -185,85 +190,32 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
 
                     break;
 //</editor-fold>
-
+                
                 //<editor-fold defaultstate="collapsed" desc="STARTROOM">
                 case STARTROOM:
-
+                    
                     if (getMap() != null) {
                         getMap().drawMap(graphics);
                     }
-
+                    
                     if (c98 != null) {
                         c98.draw(graphics);
                     }
-
-//                    grid.setColumns(10);
-//                    grid.setRows(10);
-//                    grid.setColor(Color.LIGHT_GRAY);
-//                    grid.paintComponent(graphics);
-//                    grid.setPosition(new Point((getWidth() / 2) - 100, (getHeight() / 2) - 10));
-//
-////                    graphics.fillRect(593, 417, 100, 100);
-//                    int border = 5;
-//                    graphics.fillRect(grid.getPosition().x - border, grid.getPosition().y - border, 100 + (2 * border), 100 + (2 * border));
-//
-//                    graphics.setColor(Color.BLACK);
-////                    graphics.fillRect(628, 417, 30, 10);
-//                    graphics.fillRect(grid.getPosition().x, grid.getPosition().y, 100, 100);
-////=======
-////                    graphics.fillRect(grid.getPosition().x, 100, 100, 100);
-////>>>>>>> Ethan-game-music
-////                    graphics.fillRect(599, 422, 90, 90);
-//                    graphics.fillRect(grid.getPosition().x + (3 * grid.getCellWidth()), grid.getPosition().y - border, 100 - (6 * grid.getCellWidth()), 2 * border);
-////                    graphics.fillRect(599, 422, 90, 90);
-//
-//                    if (showGrid) {
-//                        grid.paintComponent(graphics);
-//                    }
-//                    if (c98 != null) {
-//                        c98.draw(graphics);
-//                    }
-//                    if (grid.getPosition() == grid.getCellLocationFromSystemCoordinate(1, 5)) {
-//                        gameState = GameState.MAZESTART;
-//                    }
-                    break;
-//</editor-fold>//</editor-fold>
-
-                //<editor-fold defaultstate="collapsed" desc="MAZESTART">
-                case MAZESTART:
-
-                    break;
-//</editor-fold>
-
-                //<editor-fold defaultstate="collapsed" desc="MAZEEXPLORE">
-                case MAZEEXPLORE:
-
-                    break;
-//</editor-fold>
-
-                //<editor-fold defaultstate="collapsed" desc="OASIS">
-                case OASIS:
-
-                    break;
-//</editor-fold>
-
-                //<editor-fold defaultstate="collapsed" desc="TREEROOM">
-                case TREEROOM:
-
-                    break;
-//</editor-fold>
-
-                //<editor-fold defaultstate="collapsed" desc="BOSSROOM">
-                case BOSSROOM:
-
+                    
+                    
                     break;
 //</editor-fold>
 
                 //<editor-fold defaultstate="collapsed" desc="PAUSED">
                 case PAUSED:
-
+                    if (paused = true) {
+                    graphics.setColor(Color.WHITE);
+                    graphics.drawString("PAUSED", Font.BOLD, 100);
+                    setPaused(paused = false);
+                    }
+                   
                     break;
-//</editor-fold>
+//</editor-fold>//</editor-fold>
 
                 //<editor-fold defaultstate="collapsed" desc="BATTLE">
                 case BATTLE:
@@ -277,11 +229,8 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
                     break;
 //</editor-fold>
 
-                //<editor-fold defaultstate="collapsed" desc="END">
-                case END:
+               
 
-                    break;
-//</editor-fold>
 
             }
         }
@@ -290,19 +239,16 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
 //<editor-fold defaultstate="collapsed" desc="GridDrawData">
     @Override
     public int getCellHeight() {
-//        return grid.getCellHeight();
         return map.getCellHeight();
     }
 
     @Override
     public int getCellWidth() {
-//        return grid.getCellWidth();
         return map.getCellWidth();
     }
 
     @Override
     public Point getCellSystemCorrdinate(Point cellCorrdinate) {
-//        return grid.getCellSystemCoordinate(cellCorrdinate);
         return map.getCellSystemCoordinate(cellCorrdinate);
     }
 //</editor-fold>
@@ -350,6 +296,7 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
     public void setMap(Map map) {
         this.map = map;
         this.map.setPortalEventHandler(this);
+        this.map.setObstacleEventHandler(this);
     }
 
 //<editor-fold defaultstate="collapsed" desc="PortalEventHandlerIntf">
@@ -358,17 +305,53 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
         System.out.println("Portal Event");
         setMap(MapFactory.getMap(portal.getDestinationMapName(), new Point(100, 300)));
         newLocation = portal.getDestinationLocation();
-        //c98.setPosition(portal.getDestinationLocation());
         return true;
     }
 //</editor-fold>
 
     private void move(Direction direction) {
-//        System.out.println("Move " + direction.toString());
         if (c98 != null) {
             c98.move(direction);
             c98.start();
         }
     }
+
+    /**
+     * @return the paused
+     */
+    public boolean isPaused() {
+        c98.stop();
+        System.out.println("IS PAUSED");
+        return paused;
+        
+    }
+
+    /**
+     * @param paused the paused to set
+     */
+    public void setPaused(boolean paused) {
+            this.paused = paused;
+    }
+    public void togglePaused(){
+        if (paused = false) {
+            setPaused(paused = true);
+            System.out.println("False");
+        } if (paused = true) {
+            System.out.println("True");
+            setPaused(paused = false);
+        } else{
+            setPaused(paused = true);
+        }
+        
+    }
+
+    @Override
+//<editor-fold defaultstate="collapsed" desc="ObstacleEventHandlerIntf">
+    public boolean obstacleEvent(Obstacle obstacle) {
+        System.out.println("OUCH!!!!");
+        return false;
+        
+    }
+//</editor-fold>
 
 }

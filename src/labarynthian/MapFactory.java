@@ -12,6 +12,7 @@ import java.awt.Point;
 import map.Item;
 import map.Map;
 import map.MapVisualizerIntf;
+import map.ObstacleType;
 
 /**
  *
@@ -36,25 +37,53 @@ public class MapFactory {
 
         switch (mapName){
             
-            case MAP_MAZE_EXPLORE:
-                map.setGridSize(40, 60);
-                map.addPortal(new Point(25, 4), MAP_MAZE_START, new Point(18, 5));
-                
-                break;
-                
-            case MAP_MAZE_START:
-                map.setGridSize(10, 50);
-                map.addPortal(new Point(3, 9), MAP_START_ROOM, new Point(3, 1));
-                map.addPortal(new Point(6, 6), MAP_MAZE_EXPLORE, new Point(22, 4));
-                
-                break;
-                
-                
             default:
             case MAP_START_ROOM:
                 map.setGridSize(10, 10);
-                map.addPortal(new Point(3, 0), MAP_MAZE_START, new Point(3, 8));
+                map.addPortal(new Point(1, 1), MAP_MAZE_START, new Point(4, 1));
                 map.addItem(new Item(new Point(4, 2), ITEM_KEY));
+                System.out.println("MAP_START_ROOM");
+                
+                case MAP_MAZE_START:
+                map.setGridSize(10, 50);
+                map.addPortal(new Point(1, 1), MAP_START_ROOM, new Point(5, 1));
+                map.addPortal(new Point(1, 2), MAP_MAZE_EXPLORE, new Point(6, 1));
+                
+                
+//                map.addObstacle(new Point(1,4), ObstacleType.BARRIER);
+//                map.addObstacle(new Point(2,4), ObstacleType.BARRIER);
+//                map.addObstacle(new Point(3,4), ObstacleType.BARRIER);
+//                map.addObstacle(new Point(4,4), ObstacleType.BARRIER);
+//                map.addObstacle(new Point(5,4), ObstacleType.BARRIER);
+                
+                System.out.println("MAP_MAZE_START");
+                
+                break;
+            
+            case MAP_MAZE_EXPLORE:
+                map.setGridSize(40, 60);
+                map.addPortal(new Point(1, 1), MAP_MAZE_START, new Point(7, 1));
+                map.addPortal(new Point (1, 1), MAP_OASIS, new Point(8, 1));
+                map.addObstacleRange(3, 1, 3, 2, ObstacleType.BARRIER);
+                map.addObstacleRange(3, 5, 22, 16, ObstacleType.BARRIER);
+                System.out.println("MAP_MAZE_EXPLORE");
+                break;
+            
+            case MAP_OASIS:
+                map.setGridSize(300, 300);
+                map.addPortal(new Point (1, 1), MAP_MAZE_EXPLORE, new Point (9, 1));
+                System.out.println("MAP_OASIS");
+                
+            case MAP_TREE_ROOM:
+                
+                break;
+                
+            case MAP_BOSS_ROOM:
+                
+                break;
+                
+                
+            
         }
         
         return map;
@@ -62,6 +91,7 @@ public class MapFactory {
     
     public static final Color WALL_COLOR =  new Color(200, 200, 200, 200);  //Color.LIGHT_GRAY;//new Color(0, 0, 0);
     public static final Color PORTAL_COLOR =  new Color(200, 0, 50, 200);  
+    public static final Color OBSTACLE_COLOR =  new Color(200, 200, 50, 200);  
     
     private static class LabarynthianMapVisualizer implements MapVisualizerIntf {
         
@@ -92,6 +122,13 @@ public class MapFactory {
             map.getPortalLocations().stream().forEach((portalLocation) -> {
                 Point tl = map.getGrid().getCellSystemCoordinate(portalLocation);
                 graphics.fillOval(tl.x, tl.y, wallWidth, wallHeight);
+            });
+
+            graphics.setColor(PORTAL_COLOR);
+            map.getObstacleLocations().stream().forEach((obstacleLocation) -> {
+                Point tl = map.getGrid().getCellSystemCoordinate(obstacleLocation);
+                graphics.fillRect(tl.x, tl.y, wallWidth, wallHeight);
+//                System.out.println("obstacle....");
             });
         }
     }
