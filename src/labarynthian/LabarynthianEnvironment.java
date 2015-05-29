@@ -12,6 +12,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import images.ResourceTools;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
@@ -32,16 +33,14 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
     private Image title;
     private GameState gameState = GameState.STARTMENU;
     private Number98 c98;
-
     private int counter = 0;
-
     public int MEDIUM_SPEED = 7;
-
     public int moveDelayLimit = MEDIUM_SPEED;
     public int moveDelayCounter = 7;
-
     private boolean showGrid = false;
-
+    public int level;
+    public BadGuys Enemy;
+    
     public LabarynthianEnvironment() {
 
     }
@@ -54,7 +53,7 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
 
         setGameState(GameState.STARTMENU);
 
-//        audio.AudioPlayer.play("/resources/MenuMusic.wav");
+        audio.AudioPlayer.play("/resources/MenuMusic.wav");
         c98 = new Number98(new Point(5, 5), this, this);
         setMap(MapFactory.getMap(MapFactory.MAP_START_ROOM, new Point(100, 300)));
     }
@@ -165,6 +164,11 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
     public void environmentMouseClicked(MouseEvent e) {
     }
 
+    public int GetLevel(){
+        return level;
+    }
+    
+    
     @Override
     public void paintEnvironment(Graphics graphics) {
         if (gameState != null) {
@@ -177,11 +181,14 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
 //                    grid.setColor(Color.BLACK);
 //                    grid.paintComponent(graphics);
 
-                    graphics.drawImage(getTitle(), 400, 100, null);
+                    graphics.drawImage(getTitle(), 355, 100, null);
 
                     graphics.setColor(Color.WHITE);
-                    graphics.drawString("PRESS SPACE TO BEGIN", (getWidth() / 2) - 50, getHeight() / 2);
-                    graphics.drawString("Developer Version Alpha 3.2", (getWidth() / 2) - 50, getHeight() / 3);
+                    graphics.setFont(new Font("Times New Roman", Font.BOLD, 14));
+                    graphics.drawString("Developer Version Alpha 3.2", (getWidth() / 2) -90, getHeight() / 3);
+                    graphics.setFont(new Font("Times New Roman", Font.BOLD, 24));
+                    graphics.drawString("PRESS SPACE TO BEGIN", (getWidth() / 2) -140, getHeight() / 2);
+                  
 
                     break;
 //</editor-fold>
@@ -267,7 +274,10 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
 
                 //<editor-fold defaultstate="collapsed" desc="BATTLE">
                 case BATTLE:
-
+                   
+//                    Enemy = new Enemy(c98.getPosition().x +10, c98.getPosition().y +10);
+                    
+                    
                     break;
 //</editor-fold>
 
