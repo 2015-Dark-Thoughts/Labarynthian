@@ -7,6 +7,7 @@
 package labarynthian;
 
 import environment.Environment;
+import environment.LocationValidatorIntf;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import images.ResourceTools;
@@ -25,17 +26,42 @@ import map.PortalEventHandlerIntf;
  *
  * @author ilovesoccer127
  */
-class LabarynthianEnvironment extends Environment implements MovementValidatorIntf,
+class LabarynthianEnvironment extends Environment implements MovementValidatorIntf, LocationValidatorIntf,
         GridDrawData, PortalEventHandlerIntf, ObstacleEventHandlerIntf {
 
 //<editor-fold defaultstate="collapsed" desc="Constructors & Initialization">
-  @Override
+  
+
+
+    private Map map;
+
+//    Grid grid;
+    private Image title;
+    private GameState gameState = GameState.STARTMENU;
+    private Number98 c98;
+    private int counter = 0;
+    public int MEDIUM_SPEED = 7;
+    public int moveDelayLimit = MEDIUM_SPEED;
+    public int moveDelayCounter = 7;
+    private boolean showGrid = false;
+    public int level;
+    public BadGuys Enemy;
+    public boolean paused = false;
+  
+    
+    public LabarynthianEnvironment() {
+
+    }
+
+    @Override
     public void initializeEnvironment() {
         this.setBackground(Color.BLACK);
         setTitle(ResourceTools.loadImageFromResource("resources/title.jpeg"));
         setGameState(GameState.STARTMENU);
         
 //        audio.AudioPlayer.play("/resources/MenuMusic.wav");
+
+        audio.AudioPlayer.play("/resources/MenuMusic.wav");
         c98 = new Number98(new Point(5, 5), this, this);
         setMap(MapFactory.getMap(MapFactory.MAP_START_ROOM, new Point(getWidth() + (getWidth() / 2) , getHeight() + (getHeight() / 2))));
     }
@@ -123,18 +149,18 @@ class LabarynthianEnvironment extends Environment implements MovementValidatorIn
 //</editor-fold>
     
 //<editor-fold defaultstate="collapsed" desc="Properties">
-    private Map map;
-    private Image title;
-    private GameState gameState = GameState.STARTMENU;
-    private Number98 c98;
-    
-    private int counter = 0;
-    public int MEDIUM_SPEED = 7;
-    public int moveDelayLimit = MEDIUM_SPEED;
-    public int moveDelayCounter = 7;
-    
-    private boolean showGrid = false;
-    private boolean paused = false;
+//    private Map map;
+//    private Image title;
+//    private GameState gameState = GameState.STARTMENU;
+//    private Number98 c98;
+//    
+//    private int counter = 0;
+//    public int MEDIUM_SPEED = 7;
+//    public int moveDelayLimit = MEDIUM_SPEED;
+//    public int moveDelayCounter = 7;
+//    
+//    private boolean showGrid = false;
+//    private boolean paused = false;
     
     /**
      * @return the gameState
@@ -203,23 +229,31 @@ class LabarynthianEnvironment extends Environment implements MovementValidatorIn
     /**
      * @return the map
      */
-    public Map getMap() {
-        return map;
-    }
+//    public Map getMap() {
+//        return map;
+//    }
 
     /**
      * @param map the map to set
      */
-    public void setMap(Map map) {
-        this.map = map;
-        this.map.setPortalEventHandler(this);
-        this.map.setObstacleEventHandler(this);
-//        this.map.setLocationValidator(this);
-    }
+//    public void setMap(Map map) {
+//        this.map = map;
+//        this.map.setPortalEventHandler(this);
+//        this.map.setObstacleEventHandler(this);
+////        this.map.setLocationValidator(this);
+//    }
     
 //</editor-fold>
 
+
 //<editor-fold defaultstate="collapsed" desc="Drawing">
+
+    public int GetLevel(){
+        return level;
+    }
+    
+    
+
     @Override
     public void paintEnvironment(Graphics graphics) {
         if (gameState != null) {
@@ -231,13 +265,26 @@ class LabarynthianEnvironment extends Environment implements MovementValidatorIn
 //                    grid.setRows(getHeight());
 //                    grid.setColor(Color.BLACK);
 //                    grid.paintComponent(graphics);
+
                     
                     graphics.drawImage(getTitle(), 400, 100, null);
                     
+//                    graphics.setColor(Color.WHITE);
+//                    graphics.drawString("PRESS SPACE TO BEGIN", (getWidth() / 2) - 50, getHeight() / 2);
+//                    graphics.drawString("Developer Version Alpha 3.2", (getWidth() / 2) - 50, getHeight() / 3);
+//                    
+
+
+                    graphics.drawImage(getTitle(), 355, 100, null);
+
                     graphics.setColor(Color.WHITE);
-                    graphics.drawString("PRESS SPACE TO BEGIN", (getWidth() / 2) - 50, getHeight() / 2);
-                    graphics.drawString("Developer Version Alpha 3.2", (getWidth() / 2) - 50, getHeight() / 3);
-                    
+                    graphics.setFont(new Font("Times New Roman", Font.BOLD, 14));
+                    graphics.drawString("Developer Version Alpha 3.2", (getWidth() / 2) -90, getHeight() / 3);
+                    graphics.setFont(new Font("Times New Roman", Font.BOLD, 24));
+                    graphics.drawString("PRESS SPACE TO BEGIN", (getWidth() / 2) -140, getHeight() / 2);
+                  
+
+
                     break;
 //</editor-fold>
                     
@@ -269,6 +316,10 @@ class LabarynthianEnvironment extends Environment implements MovementValidatorIn
                     
                     //<editor-fold defaultstate="collapsed" desc="BATTLE">
                 case BATTLE:
+
+                   
+//                    Enemy = new Enemy(c98.getPosition().x +10, c98.getPosition().y +10);
+
                     
                     break;
 //</editor-fold>
@@ -304,6 +355,54 @@ class LabarynthianEnvironment extends Environment implements MovementValidatorIn
     }
 //</editor-fold>
 
+
+
+//<editor-fold defaultstate="collapsed" desc="LocationValidatorIntf">
+    @Override
+    public Point validateLocation(Point point) {
+        if (point.x < 0) {
+            point.x = 0;
+        }
+
+        if (point.x > map.getGrid().getColumns() - 1) {
+            point.x = map.getGrid().getColumns() - 1;
+        }
+
+        if (point.y < 0) {
+            point.y = 0;
+        }
+
+        if (point.y > map.getGrid().getRows() - 1) {
+            point.y = map.getGrid().getRows() - 1;
+        }
+        newLocation = point;
+
+        if (map != null) {
+            map.validateLocation(point);
+        }
+
+        return newLocation;
+    }
+
+    private Point newLocation;
+//</editor-fold>
+
+    /**
+     * @return the map
+     */
+    public Map getMap() {
+        return map;
+    }
+
+    /**
+     * @param map the map to set
+     */
+    public void setMap(Map map) {
+        this.map = map;
+        this.map.setPortalEventHandler(this);
+        this.map.setObstacleEventHandler(this);
+    }
+
 //<editor-fold defaultstate="collapsed" desc="PortalEventHandlerIntf">
     @Override
     public boolean portalEvent(Portal portal) {
@@ -325,8 +424,8 @@ class LabarynthianEnvironment extends Environment implements MovementValidatorIn
     }
 //</editor-fold>
 
+
 //<editor-fold defaultstate="collapsed" desc="MovementValidatorIntf">
-    @Override
     public boolean validateMove(Point location) {
         if (locationOutOfBounds(location) ||
             ((map != null) && (!map.validateLocation(location)))) {
@@ -340,5 +439,9 @@ class LabarynthianEnvironment extends Environment implements MovementValidatorIn
         return ((location.x < 0) ||  (location.x > map.getGrid().getColumns() - 1) ||
                 (location.y < 0) || (location.y > map.getGrid().getRows() - 1));
     }
+
+//<editor-fold defaultstate="collapsed" desc="ObstacleEventHandlerIntf">
+   
 //</editor-fold>
 }
+  

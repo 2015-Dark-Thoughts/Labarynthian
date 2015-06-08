@@ -13,4 +13,5 @@ import java.awt.Point;
  */
 public interface MovementValidatorIntf {
     public boolean validateMove(Point location);
+    
 }
