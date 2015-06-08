@@ -12,6 +12,7 @@ import java.awt.Point;
 import map.Item;
 import map.Map;
 import map.MapVisualizerIntf;
+import map.ObstacleType;
 
 /**
  *
@@ -37,15 +38,41 @@ public class MapFactory {
         switch (mapName){
             
             case MAP_MAZE_EXPLORE:
-                map.setGridSize(40, 60);
-                map.addPortal(new Point(25, 4), MAP_MAZE_START, new Point(18, 5));
+                map.setGridSize(60, 60);
+                map.addPortal(new Point(28, 0), MAP_MAZE_START, new Point(18, 5));
+                
+                // TO DO: Make the maze start room spawn player at 28, 0
+                
+                //Rows originating from line 0
+                map.addObstacleRange(new Point(3,3), new Point(0,3), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(6,0), new Point(6,6), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(3,6), new Point(12,6), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(3,6), new Point(3,12), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(12,3), new Point(12,12), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(12,9), new Point(15,9), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(18,0), new Point(18,3), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(18,3), new Point(21,3), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(21,3), new Point(21,9), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(30,0), new Point(30,6), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(24,6), new Point(33,6), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(24,3), new Point(24,6), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(24,3), new Point(27,3), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(33,6), new Point(33,9), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(48,0), new Point(48,3), ObstacleType.BARRIER);
+                
+                // Rows originating from line 3
+//                map.addObstacleRange(new Point(12,9), new Point(15,9), ObstacleType.BARRIER);
+//                map.addObstacleRange(new Point(12,9), new Point(15,9), ObstacleType.BARRIER);
+
+
                 
                 break;
                 
             case MAP_MAZE_START:
                 map.setGridSize(10, 50);
                 map.addPortal(new Point(3, 9), MAP_START_ROOM, new Point(3, 1));
-                map.addPortal(new Point(6, 6), MAP_MAZE_EXPLORE, new Point(22, 4));
+                map.addPortal(new Point(49, 5), MAP_MAZE_EXPLORE, new Point(24, 0));
+                map.addPortal(new Point(49, 4), MAP_MAZE_EXPLORE, new Point(24, 0));
                 
                 break;
                 
@@ -62,6 +89,7 @@ public class MapFactory {
     
     public static final Color WALL_COLOR =  new Color(200, 200, 200, 200);  //Color.LIGHT_GRAY;//new Color(0, 0, 0);
     public static final Color PORTAL_COLOR =  new Color(200, 0, 50, 200);  
+    public static final Color BARRIER_COLOR =  new Color(200, 240, 240, 128);  
     
     private static class LabarynthianMapVisualizer implements MapVisualizerIntf {
         
@@ -92,6 +120,12 @@ public class MapFactory {
             map.getPortalLocations().stream().forEach((portalLocation) -> {
                 Point tl = map.getGrid().getCellSystemCoordinate(portalLocation);
                 graphics.fillOval(tl.x, tl.y, wallWidth, wallHeight);
+            });
+            
+            graphics.setColor(BARRIER_COLOR);
+            map.getObstacleLocations().stream().forEach((barrierLocation) -> {
+                Point tl = map.getGrid().getCellSystemCoordinate(barrierLocation);
+                graphics.fillRect(tl.x, tl.y, wallWidth, wallHeight);
             });
         }
     }

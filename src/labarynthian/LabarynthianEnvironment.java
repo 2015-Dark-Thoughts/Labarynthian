@@ -17,6 +17,8 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
 import map.Map;
+import map.Obstacle;
+import map.ObstacleEventHandlerIntf;
 import map.Portal;
 import map.PortalEventHandlerIntf;
 
@@ -25,7 +27,7 @@ import map.PortalEventHandlerIntf;
  * @author ilovesoccer127
  */
 class LabarynthianEnvironment extends Environment implements LocationValidatorIntf,
-        GridDrawData, PortalEventHandlerIntf {
+        GridDrawData, PortalEventHandlerIntf, ObstacleEventHandlerIntf  {
 
     private Map map;
 
@@ -360,6 +362,7 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
     public void setMap(Map map) {
         this.map = map;
         this.map.setPortalEventHandler(this);
+        this.map.setObstacleEventHandler(this);
     }
 
 //<editor-fold defaultstate="collapsed" desc="PortalEventHandlerIntf">
@@ -381,4 +384,11 @@ class LabarynthianEnvironment extends Environment implements LocationValidatorIn
         }
     }
 
+//<editor-fold defaultstate="collapsed" desc="ObstacleEventHandlerIntf">
+    @Override
+    public boolean obstacleEvent(Obstacle obstacle) {
+        System.out.println("Ouch : " + obstacle.getType());
+        return false;
+    }
+//</editor-fold>
 }
