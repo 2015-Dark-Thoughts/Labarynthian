@@ -6,7 +6,6 @@
  */
 package labarynthian;
 
-import environment.LocationValidatorIntf;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -18,27 +17,29 @@ import java.awt.Point;
  */
 public class Number98 {
 
+//<editor-fold defaultstate="collapsed" desc="Constructor">
+    public Number98(Point position, MovementValidatorIntf movementValidatorIntf, GridDrawData drawData) {
+        this.position = position;
+        this.movementValidator = movementValidatorIntf;
+        this.moving = true;
+        
+        this.drawData = drawData;
+    }
+//</editor-fold>
+    
+//<editor-fold defaultstate="collapsed" desc="Properties">
     private Point position;
     private int glowInt;
     private GridDrawData drawData;
-    private LocationValidatorIntf locationValidator;
+
     private boolean paused = false;
     private boolean alive = true;
-
     private boolean candle = false;
 
     private Direction direction;
     private boolean moving;
+    private MovementValidatorIntf movementValidator;
 
-    public Number98(Point position, LocationValidatorIntf locationValidator, GridDrawData drawData) {
-        this.position = position;
-        this.locationValidator = locationValidator;
-        this.drawData = drawData;
-        this.direction = direction;
-        this.moving = true;
-    }
-
-    //<editor-fold defaultstate="collapsed" desc="Getters and Setters">
     /**
      * @return the drawData
      */
@@ -54,17 +55,17 @@ public class Number98 {
     }
 
     /**
-     * @return the locationValidator
+     * @return the movementValidator
      */
-    public LocationValidatorIntf getLocationValidator() {
-        return locationValidator;
+    public MovementValidatorIntf getMovementValidatorIntf() {
+        return movementValidator;
     }
 
     /**
-     * @param locationValidator the locationValidator to set
+     * @param movementValidatorIntf the movementValidator to set
      */
-    public void setLocationValidator(LocationValidatorIntf locationValidator) {
-        this.locationValidator = locationValidator;
+    public void setMovementValidatorIntf(MovementValidatorIntf movementValidatorIntf) {
+        this.movementValidator = movementValidatorIntf;
     }
 
     /**
@@ -135,8 +136,8 @@ public class Number98 {
         this.position = position;
     }
 //</editor-fold>
-    
 
+//<editor-fold defaultstate="collapsed" desc="Drawing">
     public void draw(Graphics graphics) {
         Point topLeft = drawData.getCellSystemCorrdinate(getPosition());
         Point com = new Point(topLeft.x + (drawData.getCellWidth() / 2), topLeft.y + (drawData.getCellHeight() / 2));
@@ -146,7 +147,7 @@ public class Number98 {
             
             graphics.setColor(new Color(255, 255, 204, 150));
             
-            graphics.fillOval(com.x - getRadiusSize(), com.y - getRadiusSize(), 
+            graphics.fillOval(com.x - getRadiusSize(), com.y - getRadiusSize(),
                     2 * getRadiusSize(), 2 * getRadiusSize());
         }
         graphics.setColor(Color.GRAY);
@@ -154,10 +155,12 @@ public class Number98 {
         graphics.setColor(Color.WHITE);
         graphics.setFont(new Font("Times New Roman", Font.PLAIN, 10));
         graphics.drawString("98", drawData.getCellSystemCorrdinate(getPosition()).x + 1 , drawData.getCellSystemCorrdinate(getPosition()).y + 9);
-
+        
         
     }
-
+//</editor-fold>
+    
+//<editor-fold defaultstate="collapsed" desc="Movement">
     public void stop() {
         this.moving = false;
     }
@@ -170,7 +173,7 @@ public class Number98 {
 //        if ((!paused) && (moving)) {
         if (true) {
             Point newPosition = (Point) getPosition().clone();
-
+            
             if (direction == Direction.DOWN) {
                 newPosition.y++;
             } else if (direction == Direction.UP) {
@@ -180,10 +183,15 @@ public class Number98 {
             } else if (direction == Direction.RIGHT) {
                 newPosition.x++;
             }
-            if (locationValidator != null) {
-                setPosition(locationValidator.validateLocation(newPosition));
+            
+            if ((movementValidator != null) && (!movementValidator.validateMove(newPosition))){
+                return;
             }
+            
+            setPosition(newPosition);
         }
     }
+//</editor-fold>
+    
 }
 
