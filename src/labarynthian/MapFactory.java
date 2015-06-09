@@ -50,23 +50,93 @@ public class MapFactory {
                 map.addPortal(new Point(1, 1), MAP_START_ROOM, new Point(5, 1));
                 map.addPortal(new Point(1, 2), MAP_MAZE_EXPLORE, new Point(6, 1));
 
-//                map.addObstacle(new Point(1,4), ObstacleType.BARRIER);
-//                map.addObstacle(new Point(2,4), ObstacleType.BARRIER);
-//                map.addObstacle(new Point(3,4), ObstacleType.BARRIER);
-//                map.addObstacle(new Point(4,4), ObstacleType.BARRIER);
-//                map.addObstacle(new Point(5,4), ObstacleType.BARRIER);
+
                 System.out.println("MAP_MAZE_START");
 
                 break;
 
             case MAP_MAZE_EXPLORE:
 
-                map.setGridSize(40, 60);
+                map.setGridSize(50, 60);
                 map.addPortal(new Point(1, 1), MAP_MAZE_START, new Point(7, 1));
                 map.addPortal(new Point(1, 1), MAP_OASIS, new Point(8, 1));
-                map.addObstacleRange(3, 1, 3, 2, ObstacleType.BARRIER);
-                map.addObstacleRange(3, 5, 22, 16, ObstacleType.BARRIER);
                 System.out.println("MAP_MAZE_EXPLORE");
+                
+                  // TO DO: Make the maze start room spawn player at 28, 0
+                //Rows originating from line 0
+                //<editor-fold defaultstate="collapsed" desc="ETHAN PB">
+                
+                map.addObstacleRange(new Point(3, 3), new Point(0, 3), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(6, 0), new Point(6, 6), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(3, 6), new Point(12, 6), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(3, 6), new Point(3, 12), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(12, 3), new Point(12, 12), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(12, 9), new Point(15, 9), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(18, 0), new Point(18, 3), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(18, 3), new Point(21, 3), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(21, 3), new Point(21, 9), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(30, 0), new Point(30, 6), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(24, 6), new Point(33, 6), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(24, 3), new Point(24, 6), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(24, 3), new Point(27, 3), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(33, 6), new Point(33, 9), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(48, 0), new Point(48, 3), ObstacleType.BARRIER);
+                
+                
+//</editor-fold>
+                
+                //<editor-fold defaultstate="collapsed" desc="CONNER PB?">
+//                map.addObstacleRange(new Point(0, 47), new Point(2, 47), ObstacleType.BARRIER);
+//                map.addObstacleRange(new Point(6, 41), new Point(6, 50), ObstacleType.BARRIER);
+//                map.addObstacleRange(new Point(3, 44), new Point(6, 44), ObstacleType.BARRIER);
+//                map.addObstacleRange(new Point(0, 41), new Point(3, 41), ObstacleType.BARRIER);
+//                map.addObstacleRange(new Point(3, 38), new Point(3, 41), ObstacleType.BARRIER);
+//                map.addObstacleRange(new Point(0, 27), new Point(3, 27), ObstacleType.BARRIER);
+//                map.addObstacleRange(new Point(3, 27), new Point(2, 24), ObstacleType.BARRIER);
+//                map.addObstacleRange(new Point(2, 24), new Point(6, 24), ObstacleType.BARRIER);
+//                map.addObstacleRange(new Point(6, 24), new Point(6, 21), ObstacleType.BARRIER);
+                //row 30
+                map.addObstacleRange(new Point(3, 30), new Point(5, 30), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(12, 30), new Point(17, 30), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(30, 30), new Point(35, 30), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(45, 30), new Point(50, 30), ObstacleType.BARRIER);
+                //row33
+                map.addObstacleRange(new Point(0, 33), new Point(2, 33), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(15, 33), new Point(20, 33), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(24, 33), new Point(41, 33), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(54, 33), new Point(59, 33), ObstacleType.BARRIER);
+                //row36
+                map.addObstacleRange(new Point(6, 36), new Point(8, 36), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(12, 36), new Point(14, 36), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(27, 36), new Point(29, 36), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(33, 36), new Point(44, 36), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(51, 36), new Point(53, 36), ObstacleType.BARRIER);
+                //row39
+                map.addObstacleRange(new Point(0, 39), new Point(5, 39), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(9, 39), new Point(17, 39), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(24, 39), new Point(26, 39), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(47, 39), new Point(50, 39), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(57, 39), new Point(59, 39), ObstacleType.BARRIER);
+                //row42
+                map.addObstacleRange(new Point(3, 42), new Point(5, 42), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(12, 42), new Point(14, 42), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(27, 42), new Point(35, 42), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(45, 42), new Point(56, 42), ObstacleType.BARRIER);
+                //row45
+                map.addObstacleRange(new Point(3, 45), new Point(11, 45), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(15, 45), new Point(23, 45), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(30, 45), new Point(38, 45), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(51, 45), new Point(53, 45), ObstacleType.BARRIER);
+                //row47
+                map.addObstacleRange(new Point(0, 47), new Point(2, 47), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(30, 47), new Point(32, 47), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(36, 47), new Point(38, 47), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(45, 47), new Point(50, 47), ObstacleType.BARRIER);
+                map.addObstacleRange(new Point(54, 47), new Point(56, 47), ObstacleType.BARRIER);
+                
+//</editor-fold>
+                
+                map.getGrid().setShowCellCoordinates(true);
                 break;
 
             case MAP_OASIS:
@@ -83,23 +153,7 @@ public class MapFactory {
                 map.setGridSize(60, 60);
                 map.addPortal(new Point(28, 0), MAP_MAZE_START, new Point(18, 5));
 
-                // TO DO: Make the maze start room spawn player at 28, 0
-                //Rows originating from line 0
-                map.addObstacleRange(new Point(3, 3), new Point(0, 3), ObstacleType.BARRIER);
-                map.addObstacleRange(new Point(6, 0), new Point(6, 6), ObstacleType.BARRIER);
-                map.addObstacleRange(new Point(3, 6), new Point(12, 6), ObstacleType.BARRIER);
-                map.addObstacleRange(new Point(3, 6), new Point(3, 12), ObstacleType.BARRIER);
-                map.addObstacleRange(new Point(12, 3), new Point(12, 12), ObstacleType.BARRIER);
-                map.addObstacleRange(new Point(12, 9), new Point(15, 9), ObstacleType.BARRIER);
-                map.addObstacleRange(new Point(18, 0), new Point(18, 3), ObstacleType.BARRIER);
-                map.addObstacleRange(new Point(18, 3), new Point(21, 3), ObstacleType.BARRIER);
-                map.addObstacleRange(new Point(21, 3), new Point(21, 9), ObstacleType.BARRIER);
-                map.addObstacleRange(new Point(30, 0), new Point(30, 6), ObstacleType.BARRIER);
-                map.addObstacleRange(new Point(24, 6), new Point(33, 6), ObstacleType.BARRIER);
-                map.addObstacleRange(new Point(24, 3), new Point(24, 6), ObstacleType.BARRIER);
-                map.addObstacleRange(new Point(24, 3), new Point(27, 3), ObstacleType.BARRIER);
-                map.addObstacleRange(new Point(33, 6), new Point(33, 9), ObstacleType.BARRIER);
-                map.addObstacleRange(new Point(48, 0), new Point(48, 3), ObstacleType.BARRIER);
+              
 
                 // Rows originating from line 3
 //                map.addObstacleRange(new Point(12,9), new Point(15,9), ObstacleType.BARRIER);
